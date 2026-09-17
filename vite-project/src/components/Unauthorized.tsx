@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const SalespersonHome = () => {
+const Unauthorized = () => {
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,10 +24,10 @@ const SalespersonHome = () => {
   };
   return (
     <>
-      Salesperson Home
+      Unauthorized
       <button onClick={handleLogout}>Logout</button>
     </>
   );
 };
 
-export default SalespersonHome;
+export default Unauthorized;

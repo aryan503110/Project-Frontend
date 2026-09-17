@@ -5,6 +5,9 @@ import Login from "./components/Login";
 import AdminHome from "./components/AdminHome";
 import { ToastContainer, toast } from "react-toastify";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
+import SalespersonHome from "./components/SalesPerson/SalespersonHome";
+import CustomerHome from "./components/Customer/CustomerHome";
+import Unauthorized from "./components/Unauthorized";
 
 const App = () => {
   return (
@@ -12,9 +15,19 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignUp />}></Route>
+          <Route path="/unauthorized" element={<Unauthorized />}></Route>
           <Route path="/login" element={<Login />}></Route>
-         <Route element={<ProtectedRoute />}>
+          <Route element={<ProtectedRoute role="admin" />}>
             <Route path="/home" element={<AdminHome />}></Route>
+          </Route>
+          <Route element={<ProtectedRoute role="salesperson" />}>
+            <Route
+              path="/salespersonhome"
+              element={<SalespersonHome />}
+            ></Route>
+          </Route>
+          <Route element={<ProtectedRoute role="customer" />}>
+            <Route path="/customerhome" element={<CustomerHome />}></Route>
           </Route>
         </Routes>
         <ToastContainer />

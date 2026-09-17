@@ -36,7 +36,13 @@ const Login = () => {
       );
 
       toast.success(res.data.message);
-      navigate("/home");
+      if (res?.data?.role === "admin") {
+        navigate("/home");
+      } else if (res?.data?.role === "salesperson") {
+        navigate("/salespersonhome");
+      } else {
+        navigate("/customerhome");
+      }
     } catch (err) {
       if (axios.isAxiosError(err)) {
         toast.error(err.response?.data?.message || "Something went wrong");
