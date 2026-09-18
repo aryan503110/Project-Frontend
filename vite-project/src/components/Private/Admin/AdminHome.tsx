@@ -2,9 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import type { RootState } from "../redux/store";
 
 const AdminHome = () => {
   const navigate = useNavigate();
+  const role = useSelector((state: RootState) => state.auth.role);
+  console.log(role, "aryan");
   axios.defaults.withCredentials = true;
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -25,7 +29,7 @@ const AdminHome = () => {
 
   return (
     <>
-      Admin Home
+     <h1 className="text-4xl font-bold text-blue-500"> Admin Home</h1>
       <button onClick={handleLogout}>Logout</button>
     </>
   );
