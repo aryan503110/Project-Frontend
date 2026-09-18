@@ -8,6 +8,9 @@ import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import SalespersonHome from "./components/SalesPerson/SalespersonHome";
 import CustomerHome from "./components/Customer/CustomerHome";
 import Unauthorized from "./components/Unauthorized";
+import Forgotpassword from "./components/ForgotPassword/Forgotpassword";
+import OTPAuthenticator from "./components/ForgotPassword/OTPAuthenticator";
+import ResetPassword from "./components/ForgotPassword/ResetPassword";
 
 const App = () => {
   return (
@@ -15,6 +18,9 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignUp />}></Route>
+          <Route path="/forgot-password" element={<Forgotpassword />}></Route>
+          <Route path="/otp-page" element={<OTPAuthenticator />}></Route>
+          <Route path="/reset-password" element={<ResetPassword />}></Route>
           <Route path="/unauthorized" element={<Unauthorized />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route element={<ProtectedRoute role="admin" />}>

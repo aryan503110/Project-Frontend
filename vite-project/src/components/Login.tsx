@@ -76,6 +76,7 @@ const Login = () => {
         <span>
           Dont Have an Account ? <Link to="/">SignUp</Link>
         </span>
+        <span><Link to='/forgot-password'>Forgot Password?</Link></span>
       </div>
     </>
   );
