@@ -13,6 +13,9 @@ import OTPAuthenticator from "./components/Public/ForgotPassword/OTPAuthenticato
 import ResetPassword from "./components/Public/ForgotPassword/ResetPassword";
 import Layout from "./components/Private/Layout";
 import AllSalesPerson from "./components/Private/Admin/AllSalesPerson";
+import SalespersonById from "./components/Private/Admin/SalespersonById";
+import AllCategories from "./components/Private/Admin/AllCategories";
+import CreateCategory from "./components/Private/Admin/CreateCategory";
 
 const App = () => {
   return (
@@ -29,6 +32,10 @@ const App = () => {
             <Route element={<Layout />}>
               <Route path="/home" element={<AdminHome />}></Route>
               <Route path="/allsalesperson" element={<AllSalesPerson/>}></Route>
+              <Route path="/salespersonbyid/:id" element={<SalespersonById/>}></Route>
+              <Route path="/allcategories" element={<AllCategories/>}></Route>
+              <Route path="/createcategory" element={<CreateCategory/>}></Route>
+              <Route path="/salespersonbyid/:id" element={<SalespersonById/>}></Route>
             </Route>
           </Route>
           <Route element={<ProtectedRoute role="salesperson" />}>

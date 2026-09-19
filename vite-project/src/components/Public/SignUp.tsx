@@ -5,19 +5,13 @@ import { toast } from "react-toastify";
 
 type Role = "" | "admin" | "salesperson" | "customer";
 
-interface SignUpData {
-  name: string;
-  email: string;
-  password: string;
-  role: Role;
-}
-
 const SignUp = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<Role>("");
+  const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
   axios.defaults.withCredentials = true;
@@ -25,13 +19,22 @@ const SignUp = () => {
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const signupdata: SignUpData = { name, email, password, role };
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("role", role);
+
+    if (image) {
+      formData.append("image", image);
+    }
 
     setLoading(true);
     try {
       const res = await axios.post(
         "http://localhost:3000/user/signup",
-        signupdata,
+        formData,
       );
 
       toast.success(res.data.message);
@@ -143,6 +146,24 @@ const SignUp = () => {
                 <option value="salesperson">Salesperson</option>
                 <option value="customer">Customer</option>
               </select>
+            </div>
+
+            <div>
+              <label htmlFor="image" className={label}>
+                Profile Image
+              </label>
+
+              <input
+                id="image"
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  if (e.target.files) {
+                    setImage(e.target.files[0]);
+                  }
+                }}
+                className={field}
+              />
             </div>
 
             <button

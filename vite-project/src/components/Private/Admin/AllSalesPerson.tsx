@@ -77,6 +77,9 @@ const AllSalesPerson = () => {
                     <div className="flex items-center justify-center gap-3">
                       <button
                         type="button"
+                        onClick={()=>{
+                          navigate(`/salespersonbyid/${item?._id}`)
+                        }}
                         className="flex h-9 w-9 items-center justify-center rounded-lg border border-blue-200 text-[#2563EB] transition hover:bg-[#2563EB] hover:text-white"
                       >
                         <FiEdit size={17} />

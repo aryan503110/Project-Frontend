@@ -25,7 +25,7 @@ const Navbar = () => {
             Salespersons
           </Link>
           <Link
-            to="/categories"
+            to="/allcategories"
             className="text-white no-underline px-4 py-3 mb-2 rounded-lg hover:bg-[#444]"
           >
             Categories
