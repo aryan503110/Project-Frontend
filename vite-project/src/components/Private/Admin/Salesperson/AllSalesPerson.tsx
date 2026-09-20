@@ -35,19 +35,19 @@ const AllSalesPerson = () => {
     <>
       <div className="w-full">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-[#222]">SalesPerson List</h1>
+          <h1 className="text-2xl font-bold text-[#222] sm:text-3xl">SalesPerson List</h1>
 
           <p className="mt-1 text-sm text-gray-500">Manage all salespersons</p>
         </div>
 
         <div className="overflow-x-auto rounded-2xl border border-gray-200 bg-white shadow-sm">
-          <table className="w-full min-w-[700px] text-left">
+          <table className="w-full min-w-[620px] text-left">
             <thead className="bg-[#222] text-white">
               <tr>
-                <th className="px-6 py-4 text-sm font-semibold text-center">Name</th>
-                <th className="px-6 py-4 text-sm font-semibold text-center">Email</th>
-                <th className="px-6 py-4 text-sm font-semibold text-center">Role</th>
-                <th className="px-6 py-4 text-sm font-semibold text-center">
+                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">Name</th>
+                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">Email</th>
+                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">Role</th>
+                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
                   Actions
                 </th>
               </tr>
@@ -59,21 +59,21 @@ const AllSalesPerson = () => {
                   key={item?._id}
                   className="border-b border-gray-100 transition duration-200 hover:bg-[#EFF6FF]"
                 >
-                  <td className="px-6 py-4 text-sm font-medium text-[#222] text-center">
+                  <td className="px-4 py-3 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-4">
                     {item?.name}
                   </td>
 
-                  <td className="px-6 py-4 text-sm text-gray-600 text-center">
+                  <td className="px-4 py-3 text-center text-sm text-gray-600 sm:px-6 sm:py-4">
                     {item?.email}
                   </td>
 
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-4 py-3 text-center sm:px-6 sm:py-4">
                     <span className="rounded-full bg-[#EFF6FF] px-3 py-1 text-xs font-semibold capitalize text-[#2563EB] ">
                       {item?.role}
                     </span>
                   </td>
 
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-3 sm:px-6 sm:py-4">
                     <div className="flex items-center justify-center gap-3">
                       <button
                         type="button"

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CategoryById = () => {
+const ProductById = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const CategoryById = () => {
   )
 }
 
-export default CategoryById
+export default ProductById

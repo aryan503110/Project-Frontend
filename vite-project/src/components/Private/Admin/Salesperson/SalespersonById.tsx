@@ -75,8 +75,8 @@ const SalespersonById = () => {
   return (
     <>
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-semibold text-black">Edit Salesperson</h1>
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl font-semibold text-black sm:text-3xl">Edit Salesperson</h1>
       </div>
       <div className="space-y-3">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -112,7 +112,7 @@ const SalespersonById = () => {
             <div>
               <label className={label}>Current Profile Image</label>
 
-              <div className="flex items-center gap-4 rounded-xl border border-white/10 p-4">
+              <div className="flex flex-col items-start gap-4 rounded-xl border border-gray-200 p-4 sm:flex-row sm:items-center">
                 <img
                   src={imageUrl}
                   alt="Current profile"
@@ -157,7 +157,7 @@ const SalespersonById = () => {
           </div>
         </div>
         {/* Buttons */}
-        <div className="flex gap-3 pt-2">
+        <div className="flex flex-col gap-3 pt-2 sm:flex-row">
           <button
             type="button"
             onClick={() => navigate("/allsalesperson")}

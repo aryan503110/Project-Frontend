@@ -23,10 +23,13 @@ const SalespersonHome = () => {
     }
   };
   return (
-    <>
-      Salesperson Home
-      <button onClick={handleLogout}>Logout</button>
-    </>
+    <section className="max-w-2xl">
+      <h1 className="text-2xl font-bold text-[#222] sm:text-4xl">Salesperson Home</h1>
+      <p className="mt-2 text-sm text-gray-500 sm:text-base">Manage your stock and customer orders.</p>
+      <button type="button" onClick={handleLogout} className="mt-6 w-full rounded-xl bg-[#222] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black sm:w-auto">
+        Logout
+      </button>
+    </section>
   );
 };
 

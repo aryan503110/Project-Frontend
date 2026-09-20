@@ -40,12 +40,12 @@ const CreateCategory = () => {
   return (
     <div className="w-full">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-semibold text-[#222]">Create Category</h1>
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl font-semibold text-[#222] sm:text-3xl">Create Category</h1>
       </div>
 
       {/* Form Card */}
-      <div className="max-w-xl rounded-2xl bg-white p-6 ">
+      <div className="max-w-xl rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:p-6">
         <div>
           <label className="mb-2 block text-[13px] font-medium text-gray-600">
             Category Name
@@ -63,7 +63,7 @@ const CreateCategory = () => {
         </div>
 
         {/* Buttons */}
-        <div className="mt-6 flex gap-3">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <button
             type="button"
             onClick={() => navigate("/allcategories")}

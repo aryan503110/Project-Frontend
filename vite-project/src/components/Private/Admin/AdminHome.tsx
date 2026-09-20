@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import type { RootState } from "../redux/store";
+import type { RootState } from "../../Redux/store";
 
 const AdminHome = () => {
   const navigate = useNavigate();
@@ -28,10 +28,17 @@ const AdminHome = () => {
   };
 
   return (
-    <>
-     <h1 className="text-4xl font-bold text-blue-500"> Admin Home</h1>
-      <button onClick={handleLogout}>Logout</button>
-    </>
+    <section className="max-w-2xl">
+      <h1 className="text-2xl font-bold text-[#222] sm:text-4xl">Admin Home</h1>
+      <p className="mt-2 text-sm text-gray-500 sm:text-base">Manage your store from one place.</p>
+      <button
+        type="button"
+        onClick={handleLogout}
+        className="mt-6 w-full rounded-xl bg-[#222] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black sm:w-auto"
+      >
+        Logout
+      </button>
+    </section>
   );
 };
 
