@@ -63,6 +63,7 @@ const Navbar = () => {
               <Link to="/allsalesperson" onClick={closeDrawer} className={linkClass("/allsalesperson")}>Salespersons</Link>
               <Link to="/allcategories" onClick={closeDrawer} className={linkClass("/allcategories")}>Categories</Link>
               <Link to="/allproducts" onClick={closeDrawer} className={linkClass("/allproducts")}>Products</Link>
+               <Link to="/alladminstock" onClick={closeDrawer} className={linkClass("/alladminstock")}>Admin Stock</Link>
               <Link to="/stock-requests" onClick={closeDrawer} className={linkClass("/stock-requests")}>Stock Requests</Link>
               <Link to="/orders" onClick={closeDrawer} className={linkClass("/orders")}>Orders</Link>
             </>

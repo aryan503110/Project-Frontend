@@ -6,16 +6,18 @@ import { useDispatch } from "react-redux";
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 
-const AllProduct = () => {
+const AllAdminStock = () => {
   const navigate = useNavigate();
-  const [productList, setproductList] = useState([]);
+  const [adminStockList, setadminStockList] = useState([]);
   const [toggle, settoggle] = useState(false);
 
   useEffect(() => {
-    const getProducts = async () => {
+    const getAdminStock = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/admin/allproducts");
-        setproductList(res?.data?.products);
+        const res = await axios.get(
+          "http://localhost:3000/admin/alladminstock",
+        );
+        setadminStockList(res?.data?.adminstock);
       } catch (err) {
         if (axios.isAxiosError(err)) {
           toast.error(err.response?.data?.message || "Something went wrong");
@@ -27,16 +29,16 @@ const AllProduct = () => {
       }
     };
 
-    getProducts();
+    getAdminStock();
   }, [toggle]);
 
-  const handleDeleteProduct = async (id) => {
+  const handleDeleteAdminStock = async (id) => {
     try {
       if (!id) {
-        return toast.error("Cannot find category");
+        return toast.error("Cannot find admin stock");
       }
       const res = await axios.delete(
-        "http://localhost:3000/admin/deleteproduct/" + id,
+        "http://localhost:3000/admin/deleteadminstock/" + id,
       );
 
       toast.success(res?.data?.message);
@@ -57,20 +59,20 @@ const AllProduct = () => {
       <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-[#222] sm:text-3xl">
-            Product List
+            Admin Stock List
           </h1>
 
-          <p className="mt-1 text-sm text-gray-500">Manage all products.</p>
+          <p className="mt-1 text-sm text-gray-500">Manage all admin stock.</p>
         </div>
 
         <button
           type="button"
           onClick={() => {
-            navigate("/createproduct");
+            navigate("/createadminstock");
           }}
           className="w-full rounded-xl bg-[#222] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black sm:w-auto"
         >
-          + Add Product
+          + Add Admin Stock
         </button>
       </div>
 
@@ -85,11 +87,11 @@ const AllProduct = () => {
                 </th>
 
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
-                  Description
+                  Stock
                 </th>
 
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
-                  Category
+                  Amount
                 </th>
 
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
@@ -99,21 +101,21 @@ const AllProduct = () => {
             </thead>
 
             <tbody>
-              {productList?.map((item) => (
+              {adminStockList?.map((item) => (
                 <tr
                   key={item?._id}
                   className="border-b border-gray-100 transition hover:bg-[#faf9f5]"
                 >
                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
-                    {item?.name}
+                    {item?.product?.name}
                   </td>
 
                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
-                    {item?.description}
+                    {item?.stock}
                   </td>
 
                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
-                    {item?.category?.categoryName}
+                    {item?.purchasePrice}
                   </td>
 
                   <td className="px-4 py-4 sm:px-6 sm:py-5">
@@ -122,7 +124,7 @@ const AllProduct = () => {
                       <button
                         type="button"
                         onClick={() => {
-                          navigate(`/productbyid/${item?._id}`);
+                          navigate(`/adminstockbyid/${item?._id}`);
                         }}
                         className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#d4a853]/40 text-[#b18a3e] transition hover:bg-[#d4a853] hover:text-black"
                       >
@@ -132,7 +134,7 @@ const AllProduct = () => {
                       {/* Delete */}
                       <button
                         onClick={() => {
-                          handleDeleteProduct(item?._id);
+                          handleDeleteAdminStock(item?._id);
                         }}
                         type="button"
                         className="flex h-9 w-9 items-center justify-center rounded-lg border border-red-200 text-red-500 transition hover:bg-red-500 hover:text-white"
@@ -144,13 +146,13 @@ const AllProduct = () => {
                 </tr>
               ))}
 
-              {productList?.length === 0 && (
+              {adminStockList?.length === 0 && (
                 <tr>
                   <td
                     colSpan={4}
                     className="px-6 py-12 text-center text-sm text-gray-500"
                   >
-                    No products found.
+                    No categories found.
                   </td>
                 </tr>
               )}
@@ -162,4 +164,4 @@ const AllProduct = () => {
   );
 };
 
-export default AllProduct;
+export default AllAdminStock;
