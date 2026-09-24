@@ -25,6 +25,7 @@ import ProductSalesperson from "../Private/SalesPerson/Product/ProductSalesperso
 import AllStockRequest from "../Private/SalesPerson/StockRequest/AllStockRequest";
 import CreateStockRequest from "../Private/SalesPerson/StockRequest/CreateStockRequest";
 import AdminAllStockRequest from "../Private/Admin/StockRequest/AdminAllStockRequest";
+import AllMyStockSalesperson from "../Private/SalesPerson/MyStock/AllMyStockSalesperson";
 
 const AppRoutes = () => {
   return (
@@ -59,7 +60,7 @@ const AppRoutes = () => {
               path="/adminstockbyid/:id"
               element={<AdminStockById />}
             ></Route>
-             <Route
+            <Route
               path="/adminallstockrequest"
               element={<AdminAllStockRequest />}
             ></Route>
@@ -79,9 +80,13 @@ const AppRoutes = () => {
               path="/salesperson/allstockrequest"
               element={<AllStockRequest />}
             ></Route>
-              <Route
+            <Route
               path="/salesperson/createstockrequest"
               element={<CreateStockRequest />}
+            ></Route>
+             <Route
+              path="/salesperson/mystock"
+              element={<AllMyStockSalesperson />}
             ></Route>
           </Route>
         </Route>

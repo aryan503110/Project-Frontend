@@ -128,9 +128,9 @@ const Navbar = () => {
                 Products
               </Link>
               <Link
-                to="/my-stock"
+                to="/salesperson/mystock"
                 onClick={closeDrawer}
-                className={linkClass("/my-stock")}
+                className={linkClass("/salesperson/mystock")}
               >
                 My Stock
               </Link>
