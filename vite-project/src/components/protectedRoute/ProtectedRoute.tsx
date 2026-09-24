@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setRole } from "../Redux/Slice/authSlice";
+import { setRole, setUserId } from "../Redux/Slice/authSlice";
 import type { RootState } from "../Redux/store";
 
 const ProtectedRoute = ({ role }) => {
@@ -10,20 +10,17 @@ const ProtectedRoute = ({ role }) => {
 
   const dispatch = useDispatch();
 
-  const currentRole = useSelector(
-    (state: RootState) => state.auth.role
-  );
+  const currentRole = useSelector((state: RootState) => state.auth.role);
 
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/user/profile"
-        );
+        const response = await axios.get("http://localhost:3000/user/profile");
 
         dispatch(setRole(response.data.user.role));
+        dispatch(setUserId(response.data.user.userId));
       } catch (error) {
         console.log(error);
       } finally {

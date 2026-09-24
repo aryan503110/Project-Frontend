@@ -59,32 +59,128 @@ const Navbar = () => {
         <div className="flex flex-col gap-1">
           {role === "admin" && (
             <>
-              <Link to="/home" onClick={closeDrawer} className={linkClass("/home")}>Dashboard</Link>
-              <Link to="/allsalesperson" onClick={closeDrawer} className={linkClass("/allsalesperson")}>Salespersons</Link>
-              <Link to="/allcategories" onClick={closeDrawer} className={linkClass("/allcategories")}>Categories</Link>
-              <Link to="/allproducts" onClick={closeDrawer} className={linkClass("/allproducts")}>Products</Link>
-               <Link to="/alladminstock" onClick={closeDrawer} className={linkClass("/alladminstock")}>Admin Stock</Link>
-              <Link to="/stock-requests" onClick={closeDrawer} className={linkClass("/stock-requests")}>Stock Requests</Link>
-              <Link to="/orders" onClick={closeDrawer} className={linkClass("/orders")}>Orders</Link>
+              <Link
+                to="/home"
+                onClick={closeDrawer}
+                className={linkClass("/home")}
+              >
+                Dashboard
+              </Link>
+              <Link
+                to="/allsalesperson"
+                onClick={closeDrawer}
+                className={linkClass("/allsalesperson")}
+              >
+                Salespersons
+              </Link>
+              <Link
+                to="/allcategories"
+                onClick={closeDrawer}
+                className={linkClass("/allcategories")}
+              >
+                Categories
+              </Link>
+              <Link
+                to="/allproducts"
+                onClick={closeDrawer}
+                className={linkClass("/allproducts")}
+              >
+                Products
+              </Link>
+              <Link
+                to="/alladminstock"
+                onClick={closeDrawer}
+                className={linkClass("/alladminstock")}
+              >
+                Admin Stock
+              </Link>
+              <Link
+                to="/adminallstockrequest"
+                onClick={closeDrawer}
+                className={linkClass("/adminallstockrequest")}
+              >
+                Stock Requests
+              </Link>
+              <Link
+                to="/orders"
+                onClick={closeDrawer}
+                className={linkClass("/orders")}
+              >
+                Orders
+              </Link>
             </>
           )}
 
           {role === "salesperson" && (
             <>
-              <Link to="/salespersonhome" onClick={closeDrawer} className={linkClass("/salespersonhome")}>Dashboard</Link>
-              <Link to="/products" onClick={closeDrawer} className={linkClass("/products")}>Products</Link>
-              <Link to="/my-stock" onClick={closeDrawer} className={linkClass("/my-stock")}>My Stock</Link>
-              <Link to="/stock-requests" onClick={closeDrawer} className={linkClass("/stock-requests")}>Stock Requests</Link>
-              <Link to="/orders" onClick={closeDrawer} className={linkClass("/orders")}>Orders</Link>
+              <Link
+                to="/salespersonhome"
+                onClick={closeDrawer}
+                className={linkClass("/salespersonhome")}
+              >
+                Dashboard
+              </Link>
+              <Link
+                to="/salesperson/products"
+                onClick={closeDrawer}
+                className={linkClass("/salesperson/products")}
+              >
+                Products
+              </Link>
+              <Link
+                to="/my-stock"
+                onClick={closeDrawer}
+                className={linkClass("/my-stock")}
+              >
+                My Stock
+              </Link>
+              <Link
+                to="/salesperson/allstockrequest"
+                onClick={closeDrawer}
+                className={linkClass("/salesperson/allstockrequest")}
+              >
+                Stock Requests
+              </Link>
+              <Link
+                to="/orders"
+                onClick={closeDrawer}
+                className={linkClass("/orders")}
+              >
+                Orders
+              </Link>
             </>
           )}
 
           {role === "customer" && (
             <>
-              <Link to="/customerhome" onClick={closeDrawer} className={linkClass("/customerhome")}>Home</Link>
-              <Link to="/products" onClick={closeDrawer} className={linkClass("/products")}>Products</Link>
-              <Link to="/cart" onClick={closeDrawer} className={linkClass("/cart")}>Cart</Link>
-              <Link to="/my-orders" onClick={closeDrawer} className={linkClass("/my-orders")}>My Orders</Link>
+              <Link
+                to="/customerhome"
+                onClick={closeDrawer}
+                className={linkClass("/customerhome")}
+              >
+                Home
+              </Link>
+              <Link
+                to="/products"
+                onClick={closeDrawer}
+                className={linkClass("/products")}
+              >
+                Products
+              </Link>
+              <Link
+                to="/cart"
+                onClick={closeDrawer}
+                className={linkClass("/cart")}
+              >
+                Cart
+              </Link>
+              <Link
+                to="/my-orders"
+                onClick={closeDrawer}
+                className={linkClass("/my-orders")}
+              >
+                My Orders
+              </Link>
             </>
           )}
         </div>

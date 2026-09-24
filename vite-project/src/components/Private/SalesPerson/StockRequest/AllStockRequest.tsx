@@ -2,22 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { FiEdit } from "react-icons/fi";
-import { MdDeleteOutline } from "react-icons/md";
 
-const AllAdminStock = () => {
+const AllStockRequest = () => {
   const navigate = useNavigate();
-  const [adminStockList, setadminStockList] = useState([]);
-  const [toggle, settoggle] = useState(false);
+  const [productList, setproductList] = useState([]);
 
   useEffect(() => {
-    const getAdminStock = async () => {
+    const getProducts = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/admin/alladminstock",
+          "http://localhost:3000/salesperson/allstockrequests",
         );
-        setadminStockList(res?.data?.adminstock);
+        setproductList(res?.data?.stockRequests);
       } catch (err) {
         if (axios.isAxiosError(err)) {
           toast.error(err.response?.data?.message || "Something went wrong");
@@ -29,29 +25,8 @@ const AllAdminStock = () => {
       }
     };
 
-    getAdminStock();
-  }, [toggle]);
-
-  const handleDeleteAdminStock = async (id) => {
-    try {
-      if (!id) {
-        return toast.error("Cannot find admin stock");
-      }
-      const res = await axios.delete(
-        "http://localhost:3000/admin/deleteadminstock/" + id,
-      );
-
-      toast.success(res?.data?.message);
-      settoggle((prev) => !prev);
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        toast.error(err.response?.data?.message || "Something went wrong");
-      } else {
-        toast.error("Something went wrong");
-      }
-      console.log(err);
-    }
-  };
+    getProducts();
+  }, []);
 
   return (
     <div className="w-full">
@@ -59,27 +34,27 @@ const AllAdminStock = () => {
       <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-[#222] sm:text-3xl">
-            Admin Stock List
+            Stock Requests List
           </h1>
 
-          <p className="mt-1 text-sm text-gray-500">Manage all admin stock.</p>
+          <p className="mt-1 text-sm text-gray-500">See all stock requests.</p>
         </div>
 
         <button
           type="button"
           onClick={() => {
-            navigate("/createadminstock");
+            navigate("/salesperson/createstockrequest");
           }}
           className="w-full rounded-xl bg-[#222] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black sm:w-auto"
         >
-          + Add Admin Stock
+          + Add Stock Request
         </button>
       </div>
 
       {/* Table */}
       <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[480px] text-left">
+          <table className="w-full min-w-120 text-left">
             <thead className="bg-[#222] text-white">
               <tr>
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
@@ -87,21 +62,21 @@ const AllAdminStock = () => {
                 </th>
 
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
-                  Stock
+                  Description
                 </th>
 
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
-                  Amount
+                  Stock Requested
                 </th>
 
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
-                  Actions
+                  Status
                 </th>
               </tr>
             </thead>
 
             <tbody>
-              {adminStockList?.map((item) => (
+              {productList?.map((item) => (
                 <tr
                   key={item?._id}
                   className="border-b border-gray-100 transition hover:bg-[#faf9f5]"
@@ -111,48 +86,28 @@ const AllAdminStock = () => {
                   </td>
 
                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
-                    {item?.stock}
+                    {item?.product?.description}
                   </td>
 
                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
-                    {item?.purchasePrice}
+                    {item?.stock}
                   </td>
 
-                  <td className="px-4 py-4 sm:px-6 sm:py-5">
-                    <div className="flex items-center justify-center gap-3">
-                      {/* Edit */}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          navigate(`/adminstockbyid/${item?._id}`);
-                        }}
-                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#d4a853]/40 text-[#b18a3e] transition hover:bg-[#d4a853] hover:text-black"
-                      >
-                        <FiEdit size={17} />
-                      </button>
-
-                      {/* Delete */}
-                      <button
-                        onClick={() => {
-                          handleDeleteAdminStock(item?._id);
-                        }}
-                        type="button"
-                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-red-200 text-red-500 transition hover:bg-red-500 hover:text-white"
-                      >
-                        <MdDeleteOutline size={19} />
-                      </button>
-                    </div>
+                  <td className="px-4 py-3 text-center sm:px-6 sm:py-4">
+                    <span className="rounded-full bg-[#EFF6FF] px-3 py-1 text-xs font-semibold capitalize text-[#2563EB] ">
+                      {item?.status}
+                    </span>
                   </td>
                 </tr>
               ))}
 
-              {adminStockList?.length === 0 && (
+              {productList?.length === 0 && (
                 <tr>
                   <td
                     colSpan={4}
                     className="px-6 py-12 text-center text-sm text-gray-500"
                   >
-                    No Admin Stock found.
+                    No products found.
                   </td>
                 </tr>
               )}
@@ -164,4 +119,4 @@ const AllAdminStock = () => {
   );
 };
 
-export default AllAdminStock;
+export default AllStockRequest;

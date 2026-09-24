@@ -21,6 +21,10 @@ import ProductById from "../Private/Admin/Product/ProductById";
 import AllAdminStock from "../Private/Admin/AdminStock/AllAdminStock";
 import CreateAdminStock from "../Private/Admin/AdminStock/CreateAdminStock";
 import AdminStockById from "../Private/Admin/AdminStock/AdminStockById";
+import ProductSalesperson from "../Private/SalesPerson/Product/ProductSalesperson";
+import AllStockRequest from "../Private/SalesPerson/StockRequest/AllStockRequest";
+import CreateStockRequest from "../Private/SalesPerson/StockRequest/CreateStockRequest";
+import AdminAllStockRequest from "../Private/Admin/StockRequest/AdminAllStockRequest";
 
 const AppRoutes = () => {
   return (
@@ -47,8 +51,18 @@ const AppRoutes = () => {
             <Route path="/createproduct" element={<CreateProduct />}></Route>
             <Route path="/productbyid/:id" element={<ProductById />}></Route>
             <Route path="/alladminstock" element={<AllAdminStock />}></Route>
-            <Route path="/createadminstock" element={<CreateAdminStock />}></Route>
-            <Route path="/adminstockbyid/:id" element={<AdminStockById />}></Route>
+            <Route
+              path="/createadminstock"
+              element={<CreateAdminStock />}
+            ></Route>
+            <Route
+              path="/adminstockbyid/:id"
+              element={<AdminStockById />}
+            ></Route>
+             <Route
+              path="/adminallstockrequest"
+              element={<AdminAllStockRequest />}
+            ></Route>
           </Route>
         </Route>
         <Route element={<ProtectedRoute role="salesperson" />}>
@@ -56,6 +70,18 @@ const AppRoutes = () => {
             <Route
               path="/salespersonhome"
               element={<SalespersonHome />}
+            ></Route>
+            <Route
+              path="/salesperson/products"
+              element={<ProductSalesperson />}
+            ></Route>
+            <Route
+              path="/salesperson/allstockrequest"
+              element={<AllStockRequest />}
+            ></Route>
+              <Route
+              path="/salesperson/createstockrequest"
+              element={<CreateStockRequest />}
             ></Route>
           </Route>
         </Route>
