@@ -101,13 +101,6 @@ const Navbar = () => {
               >
                 Stock Requests
               </Link>
-              <Link
-                to="/orders"
-                onClick={closeDrawer}
-                className={linkClass("/orders")}
-              >
-                Orders
-              </Link>
             </>
           )}
 

@@ -97,6 +97,10 @@ const AdminAllStockRequest = () => {
                   Product Name
                 </th>
 
+                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                  Salesperson
+                </th>
+
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
                   Description
                 </th>
@@ -126,11 +130,15 @@ const AdminAllStockRequest = () => {
                   </td>
 
                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
+                    {item?.salesperson?.name}
+                  </td>
+
+                  <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
                     {item?.product?.description}
                   </td>
 
                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
-                    {item?.stock}
+                    {item?.requestedStock}
                   </td>
 
                   <td className="px-4 py-3 text-center sm:px-6 sm:py-4">

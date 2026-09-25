@@ -26,6 +26,7 @@ import AllStockRequest from "../Private/SalesPerson/StockRequest/AllStockRequest
 import CreateStockRequest from "../Private/SalesPerson/StockRequest/CreateStockRequest";
 import AdminAllStockRequest from "../Private/Admin/StockRequest/AdminAllStockRequest";
 import AllMyStockSalesperson from "../Private/SalesPerson/MyStock/AllMyStockSalesperson";
+import EditMyStockSalesperson from "../Private/SalesPerson/MyStock/EditMyStockSalesperson";
 
 const AppRoutes = () => {
   return (
@@ -84,9 +85,13 @@ const AppRoutes = () => {
               path="/salesperson/createstockrequest"
               element={<CreateStockRequest />}
             ></Route>
-             <Route
+            <Route
               path="/salesperson/mystock"
               element={<AllMyStockSalesperson />}
+            ></Route>
+             <Route
+              path="/salesperson/editmystocksalesperson/:id"
+              element={<EditMyStockSalesperson />}
             ></Route>
           </Route>
         </Route>

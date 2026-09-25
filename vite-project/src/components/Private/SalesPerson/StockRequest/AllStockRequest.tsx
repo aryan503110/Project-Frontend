@@ -2,16 +2,19 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../Redux/store";
 
 const AllStockRequest = () => {
   const navigate = useNavigate();
   const [productList, setproductList] = useState([]);
+   const userId = useSelector((state: RootState) => state.auth.userId);
 
   useEffect(() => {
     const getProducts = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/salesperson/allstockrequests",
+          "http://localhost:3000/salesperson/allstockrequests/"+userId,
         );
         setproductList(res?.data?.stockRequests);
       } catch (err) {
@@ -90,7 +93,7 @@ const AllStockRequest = () => {
                   </td>
 
                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
-                    {item?.stock}
+                    {item?.requestedStock}
                   </td>
 
                   <td className="px-4 py-3 text-center sm:px-6 sm:py-4">

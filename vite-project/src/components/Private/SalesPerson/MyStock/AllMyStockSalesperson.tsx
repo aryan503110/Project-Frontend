@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../Redux/store";
+import { FiEdit } from "react-icons/fi";
 
 const AllMyStockSalesperson = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const AllMyStockSalesperson = () => {
           "http://localhost:3000/salesperson/salespersonmystock/" + userId,
         );
 
-        setstock(res?.data?.stockRequest);
+        setstock(res?.data?.stock);
       } catch (err) {
         if (axios.isAxiosError(err)) {
           toast.error(err.response?.data?.message || "Something went wrong");
@@ -44,7 +45,7 @@ const AllMyStockSalesperson = () => {
             My Stock
           </h1>
 
-          <p className="mt-1 text-sm text-gray-500">See your aproved stock.</p>
+          <p className="mt-1 text-sm text-gray-500">See your current stock.</p>
         </div>
       </div>
 
@@ -65,6 +66,10 @@ const AllMyStockSalesperson = () => {
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
                   In Stock
                 </th>
+
+                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                  Actions
+                </th>
               </tr>
             </thead>
 
@@ -84,6 +89,21 @@ const AllMyStockSalesperson = () => {
 
                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
                     {item?.stock}
+                  </td>
+
+                  <td className="px-4 py-4 sm:px-6 sm:py-5">
+                    <div className="flex items-center justify-center gap-3">
+                      {/* Edit */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigate(`/salesperson/editmystocksalesperson/${item?._id}`);
+                        }}
+                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#d4a853]/40 text-[#b18a3e] transition hover:bg-[#d4a853] hover:text-black"
+                      >
+                        <FiEdit size={17} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
