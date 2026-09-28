@@ -8,6 +8,9 @@ import type { RootState } from "../Redux/store";
 
 const Navbar = () => {
   const role = useSelector((state: RootState) => state.auth.role);
+  const name = useSelector((state: RootState) => state.auth.name);
+  const image = useSelector((state: RootState) => state.auth.image);
+  console.log("image",image)
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -44,7 +47,24 @@ const Navbar = () => {
   return (
     <nav className="shrink-0 bg-[#222] text-white md:min-h-screen md:w-60">
       <div className="flex items-center justify-between p-4 md:hidden">
-        <h2 className="text-xl font-bold">My App</h2>
+        <div className="flex items-center gap-3">
+          {image ? (
+            <img
+              src={image}
+              alt={name}
+              className="h-10 w-10 rounded-full object-cover"
+            />
+          ) : (
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4a853] font-bold text-black">
+              {name?.charAt(0).toUpperCase()}
+            </div>
+          )}
+
+          <div>
+            <p className="text-sm font-semibold">{name}</p>
+            <p className="text-xs capitalize text-gray-400">{role}</p>
+          </div>
+        </div>
 
         <button
           type="button"
@@ -72,7 +92,24 @@ const Navbar = () => {
         }`}
       >
         <div className="mb-8 flex items-center justify-between">
-          <h2 className="text-2xl font-bold">My App</h2>
+          <div className="flex items-center gap-3">
+            {image ? (
+              <img
+                src={image}
+                alt={name}
+                className="h-10 w-10 rounded-full object-cover"
+              />
+            ) : (
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d4a853] font-bold text-black">
+                {name?.charAt(0).toUpperCase()}
+              </div>
+            )}
+
+            <div>
+              <p className="text-sm font-semibold">{name}</p>
+              <p className="text-xs capitalize text-gray-400">{role}</p>
+            </div>
+          </div>
 
           <button
             type="button"
@@ -174,9 +211,9 @@ const Navbar = () => {
               </Link>
 
               <Link
-                to="/orders"
+                to="/salesperson/orders"
                 onClick={closeDrawer}
-                className={linkClass("/orders")}
+                className={linkClass("/salesperson/orders")}
               >
                 Orders
               </Link>
@@ -211,9 +248,9 @@ const Navbar = () => {
               </Link>
 
               <Link
-                to="/my-orders"
+                to="/myorders"
                 onClick={closeDrawer}
-                className={linkClass("/my-orders")}
+                className={linkClass("/myorders")}
               >
                 My Orders
               </Link>

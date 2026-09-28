@@ -5,11 +5,15 @@ type Role = "admin" | "salesperson" | "customer";
 interface AuthState {
   role: Role | null;
   userId: string | null;
+  name: string | null;
+  image: string | null;
 }
 
 const initialState: AuthState = {
   role: null,
   userId: null,
+  name: null,
+  image: null,
 };
 
 const authSlice = createSlice({
@@ -24,8 +28,24 @@ const authSlice = createSlice({
       state.userId = action.payload;
     },
 
+    setName: (state, action: PayloadAction<Role>) => {
+      state.name = action.payload;
+    },
+
+    setImage: (state, action: PayloadAction<Role>) => {
+      state.image = action.payload;
+    },
+
     clearRole: (state) => {
       state.role = null;
+    },
+
+    clearImage: (state) => {
+      state.image = null;
+    },
+
+    clearName: (state) => {
+      state.name = null;
     },
 
     clearUserId: (state) => {
@@ -39,6 +59,9 @@ export const {
   clearRole,
   setUserId,
   clearUserId,
+  setName,
+  setImage,
+  clearImage,
 } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setRole, setUserId } from "../Redux/Slice/authSlice";
+import { setRole, setUserId, setName ,setImage} from "../Redux/Slice/authSlice";
 import type { RootState } from "../Redux/store";
 
 const ProtectedRoute = ({ role }) => {
@@ -21,6 +21,8 @@ const ProtectedRoute = ({ role }) => {
 
         dispatch(setRole(response.data.user.role));
         dispatch(setUserId(response.data.user.userId));
+        dispatch(setName(response.data.user.name));
+        dispatch(setImage(response.data.user.image));
       } catch (error) {
         console.log(error);
       } finally {

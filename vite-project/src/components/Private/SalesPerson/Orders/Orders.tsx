@@ -4,19 +4,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../Redux/store";
+import { FiEdit } from "react-icons/fi";
 
-const AllStockRequest = () => {
+const Orders = () => {
   const navigate = useNavigate();
-  const [productList, setproductList] = useState([]);
+  const [orders, setorders] = useState([]);
+  const [toggle, settoggle] = useState(false);
   const userId = useSelector((state: RootState) => state.auth.userId);
 
   useEffect(() => {
     const getProducts = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/salesperson/allstockrequests/" + userId,
+          "http://localhost:3000/salesperson/ordersbysalesperson/" + userId,
         );
-        setproductList(res?.data?.stockRequests);
+        setorders(res?.data?.order);
       } catch (err) {
         if (axios.isAxiosError(err)) {
           toast.error(err.response?.data?.message || "Something went wrong");
@@ -29,7 +31,28 @@ const AllStockRequest = () => {
     };
 
     getProducts();
-  }, []);
+  }, [toggle]);
+
+  const changeStatus = async (id, status) => {
+    try {
+      const res = await axios.put(
+        "http://localhost:3000/salesperson/changeorderstatus",
+        {
+          orderId: id,
+          status: status,
+        },
+      );
+      settoggle((prev) => !prev);
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        toast.error(err.response?.data?.message || "Something went wrong");
+      } else {
+        toast.error("Something went wrong");
+      }
+
+      console.log(err);
+    }
+  };
 
   return (
     <div className="w-full">
@@ -37,21 +60,11 @@ const AllStockRequest = () => {
       <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-[#222] sm:text-3xl">
-            Stock Requests List
+            Orders
           </h1>
 
-          <p className="mt-1 text-sm text-gray-500">See all stock requests.</p>
+          <p className="mt-1 text-sm text-gray-500">See all orders.</p>
         </div>
-
-        <button
-          type="button"
-          onClick={() => {
-            navigate("/salesperson/createstockrequest");
-          }}
-          className="w-full rounded-xl bg-[#222] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black sm:w-auto"
-        >
-          + Add Stock Request
-        </button>
       </div>
 
       {/* Table */}
@@ -65,11 +78,11 @@ const AllStockRequest = () => {
                 </th>
 
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
-                  Description
+                  Customer
                 </th>
 
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
-                  Stock Requested
+                  Amount
                 </th>
 
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
@@ -79,7 +92,7 @@ const AllStockRequest = () => {
             </thead>
 
             <tbody>
-              {productList?.map((item) => (
+              {orders?.map((item) => (
                 <tr
                   key={item?._id}
                   className="border-b border-gray-100 transition hover:bg-[#faf9f5]"
@@ -89,22 +102,31 @@ const AllStockRequest = () => {
                   </td>
 
                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
-                    {item?.product?.description}
+                    {item?.customer?.name}
                   </td>
 
                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
-                    {item?.requestedStock}
+                    {item?.totalAmount}
                   </td>
 
                   <td className="px-4 py-3 text-center sm:px-6 sm:py-4">
-                    <span className="rounded-full bg-[#EFF6FF] px-3 py-1 text-xs font-semibold capitalize text-[#2563EB] ">
-                      {item?.status}
-                    </span>
+                    <select
+                    disabled={item?.orderStatus == "delivered"}
+                      value={item?.orderStatus}
+                      onChange={(e) => {
+                        changeStatus(item?._id, e.target.value);
+                      }}
+                      className="rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none"
+                    >
+                      <option value="ordered">Ordered</option>
+                      <option value="dispatched">Dispatched</option>
+                      <option value="delivered">Delivered</option>
+                    </select>
                   </td>
                 </tr>
               ))}
 
-              {productList?.length === 0 && (
+              {orders?.length === 0 && (
                 <tr>
                   <td
                     colSpan={4}
@@ -122,4 +144,4 @@ const AllStockRequest = () => {
   );
 };
 
-export default AllStockRequest;
+export default Orders;

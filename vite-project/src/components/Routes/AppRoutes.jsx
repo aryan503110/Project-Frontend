@@ -29,6 +29,10 @@ import AllMyStockSalesperson from "../Private/SalesPerson/MyStock/AllMyStockSale
 import EditMyStockSalesperson from "../Private/SalesPerson/MyStock/EditMyStockSalesperson";
 import Explore from "../Private/Customer/Explore/Explore";
 import ExploreProductById from "../Private/Customer/Explore/ExploreProductById";
+import Cart from "../Private/Customer/Cart/Cart";
+import PaymentSuccess from "../Private/Customer/Cart/PaymentSuccess";
+import MyOrders from "../Private/Customer/MyOrders/MyOrders";
+import Orders from "../Private/SalesPerson/Orders/Orders";
 
 const AppRoutes = () => {
   return (
@@ -91,9 +95,13 @@ const AppRoutes = () => {
               path="/salesperson/mystock"
               element={<AllMyStockSalesperson />}
             ></Route>
-             <Route
+            <Route
               path="/salesperson/editmystocksalesperson/:id"
               element={<EditMyStockSalesperson />}
+            ></Route>
+            <Route
+              path="/salesperson/orders"
+              element={<Orders />}
             ></Route>
           </Route>
         </Route>
@@ -101,7 +109,13 @@ const AppRoutes = () => {
           <Route element={<Layout />}>
             <Route path="/customerhome" element={<CustomerHome />}></Route>
             <Route path="/explore" element={<Explore />}></Route>
-            <Route path="/exploreproductbyid/:id" element={<ExploreProductById />}></Route>
+            <Route
+              path="/exploreproductbyid/:id"
+              element={<ExploreProductById />}
+            ></Route>
+            <Route path="/cart" element={<Cart />}></Route>
+            <Route path="/payment-success" element={<PaymentSuccess />}></Route>
+            <Route path="/myorders" element={<MyOrders />}></Route>
           </Route>
         </Route>
       </Routes>
