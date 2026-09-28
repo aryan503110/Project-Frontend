@@ -7,6 +7,7 @@ interface AuthState {
   userId: string | null;
   name: string | null;
   image: string | null;
+  isPremium: boolean;
 }
 
 const initialState: AuthState = {
@@ -14,6 +15,7 @@ const initialState: AuthState = {
   userId: null,
   name: null,
   image: null,
+  isPremium: false,
 };
 
 const authSlice = createSlice({
@@ -28,12 +30,16 @@ const authSlice = createSlice({
       state.userId = action.payload;
     },
 
-    setName: (state, action: PayloadAction<Role>) => {
+    setName: (state, action: PayloadAction<string>) => {
       state.name = action.payload;
     },
 
-    setImage: (state, action: PayloadAction<Role>) => {
+    setImage: (state, action: PayloadAction<string>) => {
       state.image = action.payload;
+    },
+
+    setIsPremium: (state, action: PayloadAction<boolean>) => {
+      state.isPremium = action.payload;
     },
 
     clearRole: (state) => {
@@ -42,6 +48,10 @@ const authSlice = createSlice({
 
     clearImage: (state) => {
       state.image = null;
+    },
+
+    clearIsPremium: (state) => {
+      state.isPremium = false;
     },
 
     clearName: (state) => {
@@ -62,6 +72,7 @@ export const {
   setName,
   setImage,
   clearImage,
+  setIsPremium,
 } = authSlice.actions;
 
 export default authSlice.reducer;

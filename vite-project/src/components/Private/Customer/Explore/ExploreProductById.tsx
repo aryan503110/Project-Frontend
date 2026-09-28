@@ -3,12 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FiArrowLeft, FiShoppingCart, FiCheck } from "react-icons/fi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../../Redux/Slice/cartSlice";
+import type { RootState } from "../../../Redux/store";
 
 const ExploreProductById = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isPremium = useSelector((state: RootState) => state.auth.isPremium);
   const { id } = useParams();
   const [quantity, setQuantity] = useState<number>(1);
   const [product, setProduct] = useState<any>(null);
@@ -208,7 +210,9 @@ const ExploreProductById = () => {
                         name: product?.product?.name,
                         image: product?.product?.image,
                         quantity: quantity,
-                        sellingprice: product?.normalSellingPrice,
+                        sellingprice: isPremium
+                          ? product?.subscriptionSellingPrice
+                          : product?.normalSellingPrice,
                         availableStock: product?.stock,
                       }),
                     );

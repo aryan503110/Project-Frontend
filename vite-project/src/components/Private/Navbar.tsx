@@ -5,12 +5,13 @@ import { FiMenu, FiX, FiLogOut } from "react-icons/fi";
 import { toast } from "react-toastify";
 import axios from "axios";
 import type { RootState } from "../Redux/store";
+import { MdStars } from "react-icons/md";
 
 const Navbar = () => {
   const role = useSelector((state: RootState) => state.auth.role);
   const name = useSelector((state: RootState) => state.auth.name);
   const image = useSelector((state: RootState) => state.auth.image);
-  console.log("image",image)
+  const isPremium = useSelector((state: RootState) => state.auth.isPremium);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -61,7 +62,17 @@ const Navbar = () => {
           )}
 
           <div>
-            <p className="text-sm font-semibold">{name}</p>
+            <div className="flex items-center gap-1">
+              <p className="text-sm font-semibold">{name}</p>
+
+              {isPremium && (
+                <MdStars
+                  size={18}
+                  className="text-[#d4a853]"
+                  title="Premium Member"
+                />
+              )}
+            </div>
             <p className="text-xs capitalize text-gray-400">{role}</p>
           </div>
         </div>
@@ -106,7 +117,17 @@ const Navbar = () => {
             )}
 
             <div>
-              <p className="text-sm font-semibold">{name}</p>
+              <div className="flex items-center gap-1">
+                <p className="text-sm font-semibold">{name}</p>
+
+                {isPremium && (
+                  <MdStars
+                    size={18}
+                    className="text-[#d4a853]"
+                    title="Premium Member"
+                  />
+                )}
+              </div>
               <p className="text-xs capitalize text-gray-400">{role}</p>
             </div>
           </div>
@@ -258,15 +279,28 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Logout */}
-        <button
-          type="button"
-          onClick={handleLogout}
-          className="mt-auto flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-white transition hover:bg-[#d4a853] hover:text-black"
-        >
-          <FiLogOut size={18} />
-          Logout
-        </button>
+        <div className="mt-auto">
+          {role === "customer" && !isPremium && (
+            <Link
+              to="/buy-premium"
+              onClick={closeDrawer}
+              className="mb-2 flex w-full gap-3 rounded-lg px-4 py-3 text-sm font-medium text-[#d4a853] transition hover:bg-[#444]"
+            >
+              <MdStars size={18} />
+              Buy Premium
+            </Link>
+          )}
+
+          {/* Logout */}
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-white transition hover:bg-[#d4a853] hover:text-black"
+          >
+            <FiLogOut size={18} />
+            Logout
+          </button>
+        </div>
       </div>
     </nav>
   );

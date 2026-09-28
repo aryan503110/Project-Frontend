@@ -33,6 +33,8 @@ import Cart from "../Private/Customer/Cart/Cart";
 import PaymentSuccess from "../Private/Customer/Cart/PaymentSuccess";
 import MyOrders from "../Private/Customer/MyOrders/MyOrders";
 import Orders from "../Private/SalesPerson/Orders/Orders";
+import BuyPremium from "../Private/Customer/BuyPremium";
+import PremiumSuccess from "../Private/Customer/PremiumSuccess";
 
 const AppRoutes = () => {
   return (
@@ -99,10 +101,7 @@ const AppRoutes = () => {
               path="/salesperson/editmystocksalesperson/:id"
               element={<EditMyStockSalesperson />}
             ></Route>
-            <Route
-              path="/salesperson/orders"
-              element={<Orders />}
-            ></Route>
+            <Route path="/salesperson/orders" element={<Orders />}></Route>
           </Route>
         </Route>
         <Route element={<ProtectedRoute role="customer" />}>
@@ -116,6 +115,8 @@ const AppRoutes = () => {
             <Route path="/cart" element={<Cart />}></Route>
             <Route path="/payment-success" element={<PaymentSuccess />}></Route>
             <Route path="/myorders" element={<MyOrders />}></Route>
+            <Route path="/buy-premium" element={<BuyPremium />}></Route>
+            <Route path="/premium-success" element={<PremiumSuccess />} />
           </Route>
         </Route>
       </Routes>

@@ -78,6 +78,10 @@ const Explore = () => {
                   {item?.product?.description}
                 </p>
 
+                <span className="mt-2 inline-flex items-center rounded-full border border-[#d4a853]/30 bg-[red]/10 px-3 py-1 text-xs font-medium text-[#9a7428]">
+                  Seller {item?.salesperson?.name}
+                </span>
+
                 {/* Prices */}
                 <div className="mt-4 border-t border-gray-100 pt-3">
                   <div className="flex items-end justify-between">
