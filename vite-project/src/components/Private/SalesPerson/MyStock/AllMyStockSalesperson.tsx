@@ -67,6 +67,14 @@ const AllMyStockSalesperson = () => {
                   In Stock
                 </th>
 
+                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                  Normal Selling Price
+                </th>
+
+                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                  Subscription Selling Price
+                </th>
+
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
                   Actions
                 </th>
@@ -89,6 +97,14 @@ const AllMyStockSalesperson = () => {
 
                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
                     {item?.stock}
+                  </td>
+
+                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
+                    {item?.normalSellingPrice}
+                  </td>
+
+                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
+                    {item?.subscriptionSellingPrice}
                   </td>
 
                   <td className="px-4 py-4 sm:px-6 sm:py-5">

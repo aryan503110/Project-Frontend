@@ -8,10 +8,16 @@ const EditMyStockSalesperson = () => {
   const { id } = useParams();
   const [name, setname] = useState("");
   const [description, setdescription] = useState("");
-  const [stock, setstock] = useState();
-  const [normalsellingprice, setnormalsellingprice] = useState();
-  const [subscriptionsellingprice, setsubscriptionsellingprice] = useState();
+  const [stock, setstock] = useState(0);
+  const [normalsellingprice, setnormalsellingprice] = useState<number>(0);
+  const [subscriptionsellingprice, setsubscriptionsellingprice] =
+    useState<number>(0);
   const [Loading, setLoading] = useState(false);
+
+  interface salespersonstockupdate {
+    normalSellingPrice: number;
+    subscriptionSellingPrice: number;
+  }
 
   useEffect(() => {
     const getData = async () => {
@@ -19,7 +25,11 @@ const EditMyStockSalesperson = () => {
         const res = await axios.get(
           "http://localhost:3000/salesperson/salespersonmystockbyid/" + id,
         );
-        console.log(res, "res");
+        setname(res?.data?.stock?.product?.name);
+        setdescription(res?.data?.stock?.product?.description);
+        setstock(res?.data?.stock?.stock);
+        setnormalsellingprice(res?.data?.stock?.normalsellingprice);
+        setsubscriptionsellingprice(res?.data?.stock?.subscriptionsellingprice);
       } catch (err) {
         if (axios.isAxiosError(err)) {
           toast.error(err.response?.data?.message || "Something went wrong");
@@ -34,38 +44,33 @@ const EditMyStockSalesperson = () => {
     getData();
   }, []);
 
-  // const handleUpdateProduct = async (
-  //   e: React.MouseEvent<HTMLButtonElement>,
-  // ) => {
-  //   e.preventDefault();
-  //   const formdata = new FormData();
-  //   formdata.append("name", name);
-  //   formdata.append("description", description);
-  //   formdata.append("categoryId", categoryId);
-  //   if (image) {
-  //     formdata.append("image", image);
-  //   }
+  const handleUpdateStock = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const SalespersonStockUpdate: salespersonstockupdate = {
+      normalSellingPrice: normalsellingprice,
+      subscriptionSellingPrice: subscriptionsellingprice,
+    };
 
-  //   setLoading(true);
-  //   try {
-  //     const res = await axios.put(
-  //       "http://localhost:3000/admin/upadteproduct/" + id,
-  //       formdata,
-  //     );
+    setLoading(true);
+    try {
+      const res = await axios.put(
+        "http://localhost:3000/salesperson/updatesalespersonmystockbyid/" + id,
+        SalespersonStockUpdate,
+      );
 
-  //     toast.success(res?.data?.message);
-  //     navigate("/allproducts");
-  //   } catch (err) {
-  //     if (axios.isAxiosError(err)) {
-  //       toast.error(err.response?.data?.message || "Something went wrong");
-  //     } else {
-  //       toast.error("Something went wrong");
-  //     }
-  //     console.log(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      toast.success(res?.data?.message);
+      navigate("/salesperson/mystock");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        toast.error(err.response?.data?.message || "Something went wrong");
+      } else {
+        toast.error("Something went wrong");
+      }
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const field =
     "w-full rounded-xl border border-white/10 px-4 py-3 text-[15px] text-black placeholder-zinc-600 outline-none transition " +
@@ -89,6 +94,7 @@ const EditMyStockSalesperson = () => {
               type="text"
               placeholder="Enter Product"
               value={name}
+              disabled
               className={field}
             />
           </div>
@@ -98,6 +104,7 @@ const EditMyStockSalesperson = () => {
             <input
               type="text"
               placeholder="Description"
+              disabled
               value={description}
               onChange={(e) => {
                 setdescription(e.target.value);
@@ -111,6 +118,7 @@ const EditMyStockSalesperson = () => {
           <div>
             <label className={label}>Stock</label>
             <input
+              disabled
               type="number"
               placeholder="Enter stock"
               value={stock}
@@ -125,6 +133,10 @@ const EditMyStockSalesperson = () => {
               placeholder="Enter NSP"
               value={normalsellingprice}
               className={field}
+              onChange={(e) => {
+                setnormalsellingprice(Number(e.target.value));
+              }}
+              onWheel={(e) => e.currentTarget.blur()}
             />
           </div>
         </div>
@@ -137,6 +149,10 @@ const EditMyStockSalesperson = () => {
               placeholder="Enter SSP"
               value={subscriptionsellingprice}
               className={field}
+              onChange={(e) => {
+                setsubscriptionsellingprice(Number(e.target.value));
+              }}
+              onWheel={(e) => e.currentTarget.blur()}
             />
           </div>
         </div>
@@ -153,7 +169,7 @@ const EditMyStockSalesperson = () => {
 
           <button
             type="button"
-            // onClick={handleUpdateProduct}
+            onClick={handleUpdateStock}
             disabled={Loading}
             className="flex-1 rounded-xl bg-[#222] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#e2b968] disabled:cursor-not-allowed disabled:opacity-50"
           >

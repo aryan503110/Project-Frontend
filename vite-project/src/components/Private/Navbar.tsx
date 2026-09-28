@@ -1,24 +1,51 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiMenu, FiX, FiLogOut } from "react-icons/fi";
+import { toast } from "react-toastify";
+import axios from "axios";
 import type { RootState } from "../Redux/store";
 
 const Navbar = () => {
   const role = useSelector((state: RootState) => state.auth.role);
   const location = useLocation();
+  const navigate = useNavigate();
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const closeDrawer = () => setIsDrawerOpen(false);
+
   const linkClass = (path: string) =>
     `rounded-lg px-4 py-3 text-sm font-medium text-white no-underline transition hover:bg-[#444] ${
       location.pathname === path ? "bg-[#444]" : ""
     }`;
 
+  const handleLogout = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/user/logout", {
+        withCredentials: true,
+      });
+
+      toast.success(res.data.message);
+
+      closeDrawer();
+      navigate("/login");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        toast.error(err.response?.data?.message || "Something went wrong");
+      } else {
+        toast.error("Something went wrong");
+      }
+
+      console.log(err);
+    }
+  };
+
   return (
     <nav className="shrink-0 bg-[#222] text-white md:min-h-screen md:w-60">
       <div className="flex items-center justify-between p-4 md:hidden">
         <h2 className="text-xl font-bold">My App</h2>
+
         <button
           type="button"
           aria-label="Open navigation menu"
@@ -46,6 +73,7 @@ const Navbar = () => {
       >
         <div className="mb-8 flex items-center justify-between">
           <h2 className="text-2xl font-bold">My App</h2>
+
           <button
             type="button"
             aria-label="Close navigation menu"
@@ -57,6 +85,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex flex-col gap-1">
+          {/* Admin Links */}
           {role === "admin" && (
             <>
               <Link
@@ -66,6 +95,7 @@ const Navbar = () => {
               >
                 Dashboard
               </Link>
+
               <Link
                 to="/allsalesperson"
                 onClick={closeDrawer}
@@ -73,6 +103,7 @@ const Navbar = () => {
               >
                 Salespersons
               </Link>
+
               <Link
                 to="/allcategories"
                 onClick={closeDrawer}
@@ -80,6 +111,7 @@ const Navbar = () => {
               >
                 Categories
               </Link>
+
               <Link
                 to="/allproducts"
                 onClick={closeDrawer}
@@ -87,6 +119,7 @@ const Navbar = () => {
               >
                 Products
               </Link>
+
               <Link
                 to="/alladminstock"
                 onClick={closeDrawer}
@@ -94,6 +127,7 @@ const Navbar = () => {
               >
                 Admin Stock
               </Link>
+
               <Link
                 to="/adminallstockrequest"
                 onClick={closeDrawer}
@@ -104,6 +138,7 @@ const Navbar = () => {
             </>
           )}
 
+          {/* Salesperson Links */}
           {role === "salesperson" && (
             <>
               <Link
@@ -113,6 +148,7 @@ const Navbar = () => {
               >
                 Dashboard
               </Link>
+
               <Link
                 to="/salesperson/products"
                 onClick={closeDrawer}
@@ -120,6 +156,7 @@ const Navbar = () => {
               >
                 Products
               </Link>
+
               <Link
                 to="/salesperson/mystock"
                 onClick={closeDrawer}
@@ -127,6 +164,7 @@ const Navbar = () => {
               >
                 My Stock
               </Link>
+
               <Link
                 to="/salesperson/allstockrequest"
                 onClick={closeDrawer}
@@ -134,6 +172,7 @@ const Navbar = () => {
               >
                 Stock Requests
               </Link>
+
               <Link
                 to="/orders"
                 onClick={closeDrawer}
@@ -144,6 +183,7 @@ const Navbar = () => {
             </>
           )}
 
+          {/* Customer Links */}
           {role === "customer" && (
             <>
               <Link
@@ -153,13 +193,15 @@ const Navbar = () => {
               >
                 Home
               </Link>
+
               <Link
-                to="/products"
+                to="/explore"
                 onClick={closeDrawer}
-                className={linkClass("/products")}
+                className={linkClass("/explore")}
               >
-                Products
+                Explore
               </Link>
+
               <Link
                 to="/cart"
                 onClick={closeDrawer}
@@ -167,6 +209,7 @@ const Navbar = () => {
               >
                 Cart
               </Link>
+
               <Link
                 to="/my-orders"
                 onClick={closeDrawer}
@@ -177,6 +220,16 @@ const Navbar = () => {
             </>
           )}
         </div>
+
+        {/* Logout */}
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="mt-auto flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-white transition hover:bg-[#d4a853] hover:text-black"
+        >
+          <FiLogOut size={18} />
+          Logout
+        </button>
       </div>
     </nav>
   );

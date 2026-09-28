@@ -27,6 +27,8 @@ import CreateStockRequest from "../Private/SalesPerson/StockRequest/CreateStockR
 import AdminAllStockRequest from "../Private/Admin/StockRequest/AdminAllStockRequest";
 import AllMyStockSalesperson from "../Private/SalesPerson/MyStock/AllMyStockSalesperson";
 import EditMyStockSalesperson from "../Private/SalesPerson/MyStock/EditMyStockSalesperson";
+import Explore from "../Private/Customer/Explore/Explore";
+import ExploreProductById from "../Private/Customer/Explore/ExploreProductById";
 
 const AppRoutes = () => {
   return (
@@ -98,6 +100,8 @@ const AppRoutes = () => {
         <Route element={<ProtectedRoute role="customer" />}>
           <Route element={<Layout />}>
             <Route path="/customerhome" element={<CustomerHome />}></Route>
+            <Route path="/explore" element={<Explore />}></Route>
+            <Route path="/exploreproductbyid/:id" element={<ExploreProductById />}></Route>
           </Route>
         </Route>
       </Routes>
