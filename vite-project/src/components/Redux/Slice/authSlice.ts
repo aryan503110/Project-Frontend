@@ -69,9 +69,11 @@ export const {
   clearRole,
   setUserId,
   clearUserId,
+  clearName,
   setName,
   setImage,
   clearImage,
+  clearIsPremium,
   setIsPremium,
 } = authSlice.actions;
 
