@@ -10,27 +10,31 @@ const AdminAllStockRequest = () => {
   const [productList, setproductList] = useState([]);
   const [Loading, setLoading] = useState(false);
   const [toggle, settoggle] = useState(false);
+  const [salesPersonList, setsalesPersonList] = useState([]);
+  const [search, setsearch] = useState("");
+  const [salespersonId, setsalespersonId] = useState("");
 
   useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:3000/salesperson/allstockrequests",
-        );
-        setproductList(res?.data?.stockRequests);
-      } catch (err) {
-        if (axios.isAxiosError(err)) {
-          toast.error(err.response?.data?.message || "Something went wrong");
-        } else {
-          toast.error("Something went wrong");
+    const timer = setTimeout(() => {
+      const getProducts = async () => {
+        try {
+          const res = await axios.get(
+            `http://localhost:3000/salesperson/allstockrequests?search=${search}&salesperson=${salespersonId}`,
+          );
+          setproductList(res?.data?.stockRequests);
+        } catch (err) {
+          if (axios.isAxiosError(err)) {
+            toast.error(err.response?.data?.message || "Something went wrong");
+          } else {
+            toast.error("Something went wrong");
+          }
+
+          console.log(err);
         }
-
-        console.log(err);
-      }
-    };
-
-    getProducts();
-  }, [toggle]);
+      };
+      getProducts();
+    }, 1000);
+  }, [toggle, search, salespersonId]);
 
   const handleApproveStockRequest = async (id) => {
     setLoading(true);
@@ -74,6 +78,32 @@ const AdminAllStockRequest = () => {
     }
   };
 
+  useEffect(() => {
+    const getSalespersons = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:3000/admin/allsalesperson",
+        );
+        setsalesPersonList(res?.data?.salespersons);
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          toast.error(err.response?.data?.message || "Something went wrong");
+        } else {
+          toast.error("Something went wrong");
+        }
+
+        console.log(err);
+      }
+    };
+
+    getSalespersons();
+  }, []);
+
+  const salespersonOptions = salesPersonList?.map((item) => ({
+    label: item?.name,
+    value: item?._id,
+  }));
+
   return (
     <div className="w-full">
       {/* Header */}
@@ -87,6 +117,39 @@ const AdminAllStockRequest = () => {
         </div>
       </div>
 
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row">
+        {/* Search */}
+        <div className="flex">
+          <input
+            type="text"
+            placeholder="Search products..."
+            onChange={(e) => {
+              setsearch(e.target.value);
+            }}
+            className="w-75 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#222] shadow-sm outline-none transition placeholder:text-gray-400 focus:border-[#d4a853] focus:ring-2 focus:ring-[#d4a853]/20"
+          />
+        </div>
+
+        {/* Category */}
+        <div className="sm:w-56">
+          <select
+            value={salespersonId}
+            onChange={(e) => {
+              setsalespersonId(e.target.value);
+            }}
+            className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#222] shadow-sm outline-none transition focus:border-[#d4a853] focus:ring-2 focus:ring-[#d4a853]/20"
+          >
+            <option value="">All Salesperson</option>
+
+            {salespersonOptions?.map((item) => (
+              <option key={item.value} value={item.value}>
+                {item.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
       {/* Table */}
       <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
         <div className="overflow-x-auto">
@@ -97,7 +160,7 @@ const AdminAllStockRequest = () => {
                   Product Name
                 </th>
 
-                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
                   Salesperson
                 </th>
 

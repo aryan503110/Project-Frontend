@@ -13,30 +13,36 @@ const MyOrders = () => {
   const navigate = useNavigate();
   const [myOrders, setmyOrders] = useState([]);
   const [toggle, settoggle] = useState(false);
+  const [search, setsearch] = useState("");
+  const [status, setstatus] = useState("");
 
   const userId = useSelector((state: RootState) => state.auth.userId);
 
   useEffect(() => {
-    const getMyStock = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:3000/customer/myorder/" + userId,
-        );
-        setmyOrders(res?.data?.order);
-        console.log("res", res.data.order);
-      } catch (err) {
-        if (axios.isAxiosError(err)) {
-          toast.error(err.response?.data?.message || "Something went wrong");
-        } else {
-          toast.error("Something went wrong");
+    const timer = setTimeout(() => {
+      const getMyStock = async () => {
+        try {
+          const res = await axios.get(
+            `http://localhost:3000/customer/myorder/${userId}?search=${search}&status=${status}`,
+          );
+          setmyOrders(res?.data?.order);
+          console.log("res", res.data.order);
+        } catch (err) {
+          if (axios.isAxiosError(err)) {
+            toast.error(err.response?.data?.message || "Something went wrong");
+          } else {
+            toast.error("Something went wrong");
+          }
+
+          console.log(err);
         }
-
-        console.log(err);
-      }
+      };
+      getMyStock();
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
     };
-
-    getMyStock();
-  }, []);
+  }, [search, status]);
 
   const downloadInvoice = async (orderId: string) => {
     try {
@@ -77,6 +83,34 @@ const MyOrders = () => {
           </h1>
 
           <p className="mt-1 text-sm text-gray-500">All Orders.</p>
+        </div>
+      </div>
+
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row">
+        {/* Search */}
+        <div className="flex">
+          <input
+            type="text"
+            placeholder="Search products..."
+            onChange={(e) => {
+              setsearch(e.target.value);
+            }}
+            className="w-75 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#222] shadow-sm outline-none transition placeholder:text-gray-400 focus:border-[#d4a853] focus:ring-2 focus:ring-[#d4a853]/20"
+          />
+        </div>
+        <div className="sm:w-56">
+          <select
+            value={status}
+            onChange={(e) => {
+              setstatus(e.target.value);
+            }}
+            className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#222] shadow-sm outline-none transition focus:border-[#d4a853] focus:ring-2 focus:ring-[#d4a853]/20"
+          >
+            <option value="">Status</option>
+            <option value="ordered">Ordered</option>
+            <option value="dispatched">Dispatched</option>
+            <option value="delivered">Delivered</option>
+          </select>
         </div>
       </div>
 
@@ -138,7 +172,7 @@ const MyOrders = () => {
                       onClick={() => downloadInvoice(item?._id)}
                       className="rounded-lg  px-4 py-2 text-sm font-semibold text-black pointer-fine:"
                     >
-                      <FaFileDownload/>
+                      <FaFileDownload />
                     </button>
                   </td>
                 </tr>

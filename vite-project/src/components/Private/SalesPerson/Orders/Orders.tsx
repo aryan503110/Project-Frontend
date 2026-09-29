@@ -10,28 +10,35 @@ const Orders = () => {
   const navigate = useNavigate();
   const [orders, setorders] = useState([]);
   const [toggle, settoggle] = useState(false);
+  const [search, setsearch] = useState("");
+  const [status, setstatus] = useState("");
   const userId = useSelector((state: RootState) => state.auth.userId);
 
   useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:3000/salesperson/ordersbysalesperson/" + userId,
-        );
-        setorders(res?.data?.order);
-      } catch (err) {
-        if (axios.isAxiosError(err)) {
-          toast.error(err.response?.data?.message || "Something went wrong");
-        } else {
-          toast.error("Something went wrong");
+    const timer = setTimeout(() => {
+      const getProducts = async () => {
+        try {
+          const res = await axios.get(
+            `http://localhost:3000/salesperson/ordersbysalesperson/${userId}?search=${search}&status=${status}`,
+          );
+          setorders(res?.data?.order);
+        } catch (err) {
+          if (axios.isAxiosError(err)) {
+            toast.error(err.response?.data?.message || "Something went wrong");
+          } else {
+            toast.error("Something went wrong");
+          }
+
+          console.log(err);
         }
+      };
+      getProducts();
+    }, 1000);
 
-        console.log(err);
-      }
+    return () => {
+      clearTimeout(timer);
     };
-
-    getProducts();
-  }, [toggle]);
+  }, [toggle, search, status]);
 
   const changeStatus = async (id, status) => {
     try {
@@ -64,6 +71,34 @@ const Orders = () => {
           </h1>
 
           <p className="mt-1 text-sm text-gray-500">See all orders.</p>
+        </div>
+      </div>
+
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row">
+        {/* Search */}
+        <div className="flex">
+          <input
+            type="text"
+            placeholder="Search products..."
+            onChange={(e) => {
+              setsearch(e.target.value);
+            }}
+            className="w-75 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#222] shadow-sm outline-none transition placeholder:text-gray-400 focus:border-[#d4a853] focus:ring-2 focus:ring-[#d4a853]/20"
+          />
+        </div>
+        <div className="sm:w-56">
+          <select
+            value={status}
+            onChange={(e) => {
+              setstatus(e.target.value);
+            }}
+            className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#222] shadow-sm outline-none transition focus:border-[#d4a853] focus:ring-2 focus:ring-[#d4a853]/20"
+          >
+            <option value="">Status</option>
+            <option value="ordered">Ordered</option>
+            <option value="dispatched">Dispatched</option>
+            <option value="delivered">Delivered</option>
+          </select>
         </div>
       </div>
 
@@ -111,7 +146,7 @@ const Orders = () => {
 
                   <td className="px-4 py-3 text-center sm:px-6 sm:py-4">
                     <select
-                    disabled={item?.orderStatus == "delivered"}
+                      disabled={item?.orderStatus == "delivered"}
                       value={item?.orderStatus}
                       onChange={(e) => {
                         changeStatus(item?._id, e.target.value);

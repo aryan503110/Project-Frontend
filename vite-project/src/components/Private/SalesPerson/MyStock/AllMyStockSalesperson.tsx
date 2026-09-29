@@ -9,32 +9,37 @@ import { FiEdit } from "react-icons/fi";
 const AllMyStockSalesperson = () => {
   const navigate = useNavigate();
   const [stock, setstock] = useState([]);
+  const [search, setsearch] = useState("");
+  const [status, setstatus] = useState("");
 
   const userId = useSelector((state: RootState) => state.auth.userId);
 
   useEffect(() => {
-    const getMyStock = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:3000/salesperson/salespersonmystock/" + userId,
-        );
+    const timer = setTimeout(() => {
+      const getMyStock = async () => {
+        try {
+          const res = await axios.get(
+            `http://localhost:3000/salesperson/salespersonmystock/${userId}?search=${search}`,
+          );
 
-        setstock(res?.data?.stock);
-      } catch (err) {
-        if (axios.isAxiosError(err)) {
-          toast.error(err.response?.data?.message || "Something went wrong");
-        } else {
-          toast.error("Something went wrong");
+          setstock(res?.data?.stock);
+        } catch (err) {
+          if (axios.isAxiosError(err)) {
+            toast.error(err.response?.data?.message || "Something went wrong");
+          } else {
+            toast.error("Something went wrong");
+          }
+
+          console.log(err);
         }
-
-        console.log(err);
-      }
-    };
-
-    if (userId) {
+      };
       getMyStock();
-    }
-  }, [userId]);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [userId, search]);
 
   return (
     <div className="w-full">
@@ -46,6 +51,20 @@ const AllMyStockSalesperson = () => {
           </h1>
 
           <p className="mt-1 text-sm text-gray-500">See your current stock.</p>
+        </div>
+      </div>
+
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row">
+        {/* Search */}
+        <div className="flex">
+          <input
+            type="text"
+            placeholder="Search products..."
+            onChange={(e) => {
+              setsearch(e.target.value);
+            }}
+            className="w-75 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#222] shadow-sm outline-none transition placeholder:text-gray-400 focus:border-[#d4a853] focus:ring-2 focus:ring-[#d4a853]/20"
+          />
         </div>
       </div>
 
@@ -67,11 +86,11 @@ const AllMyStockSalesperson = () => {
                   In Stock
                 </th>
 
-                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
                   Normal Selling Price
                 </th>
 
-                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
                   Subscription Selling Price
                 </th>
 
@@ -99,11 +118,11 @@ const AllMyStockSalesperson = () => {
                     {item?.stock}
                   </td>
 
-                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
+                  <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
                     {item?.normalSellingPrice}
                   </td>
 
-                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
+                  <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
                     {item?.subscriptionSellingPrice}
                   </td>
 
@@ -113,7 +132,9 @@ const AllMyStockSalesperson = () => {
                       <button
                         type="button"
                         onClick={() => {
-                          navigate(`/salesperson/editmystocksalesperson/${item?._id}`);
+                          navigate(
+                            `/salesperson/editmystocksalesperson/${item?._id}`,
+                          );
                         }}
                         className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#d4a853]/40 text-[#b18a3e] transition hover:bg-[#d4a853] hover:text-black"
                       >

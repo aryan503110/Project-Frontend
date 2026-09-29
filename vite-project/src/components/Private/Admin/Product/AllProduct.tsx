@@ -10,25 +10,35 @@ const AllProduct = () => {
   const navigate = useNavigate();
   const [productList, setproductList] = useState([]);
   const [toggle, settoggle] = useState(false);
+  const [categoryList, setcategoryList] = useState([]);
+  const [search, setsearch] = useState("");
+  const [categoryId, setcategoryId] = useState("");
 
   useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const res = await axios.get("http://localhost:3000/admin/allproducts");
-        setproductList(res?.data?.products);
-      } catch (err) {
-        if (axios.isAxiosError(err)) {
-          toast.error(err.response?.data?.message || "Something went wrong");
-        } else {
-          toast.error("Something went wrong");
+    const timer = setTimeout(() => {
+      const getProducts = async () => {
+        try {
+          const res = await axios.get(
+            `http://localhost:3000/admin/allproducts?search=${search}&category=${categoryId}`,
+          );
+          setproductList(res?.data?.products);
+        } catch (err) {
+          if (axios.isAxiosError(err)) {
+            toast.error(err.response?.data?.message || "Something went wrong");
+          } else {
+            toast.error("Something went wrong");
+          }
+
+          console.log(err);
         }
+      };
+      getProducts();
+    }, 1000);
 
-        console.log(err);
-      }
+    return () => {
+      clearTimeout(timer);
     };
-
-    getProducts();
-  }, [toggle]);
+  }, [toggle, search, categoryId]);
 
   const handleDeleteProduct = async (id) => {
     try {
@@ -51,6 +61,32 @@ const AllProduct = () => {
     }
   };
 
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:3000/admin/allcategories",
+        );
+        setcategoryList(res?.data?.categories);
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          toast.error(err.response?.data?.message || "Something went wrong");
+        } else {
+          toast.error("Something went wrong");
+        }
+
+        console.log(err);
+      }
+    };
+
+    getCategories();
+  }, []);
+
+  const categoryOptions = categoryList?.map((item) => ({
+    label: item?.categoryName,
+    value: item?._id,
+  }));
+
   return (
     <div className="w-full">
       {/* Header */}
@@ -72,6 +108,39 @@ const AllProduct = () => {
         >
           + Add Product
         </button>
+      </div>
+
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row">
+        {/* Search */}
+        <div className="flex">
+          <input
+            type="text"
+            placeholder="Search products..."
+            onChange={(e) => {
+              setsearch(e.target.value);
+            }}
+            className="w-75 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#222] shadow-sm outline-none transition placeholder:text-gray-400 focus:border-[#d4a853] focus:ring-2 focus:ring-[#d4a853]/20"
+          />
+        </div>
+
+        {/* Category */}
+        <div className="sm:w-56">
+          <select
+            value={categoryId}
+            onChange={(e) => {
+              setcategoryId(e.target.value);
+            }}
+            className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#222] shadow-sm outline-none transition focus:border-[#d4a853] focus:ring-2 focus:ring-[#d4a853]/20"
+          >
+            <option value="">All Categories</option>
+
+            {categoryOptions?.map((item) => (
+              <option key={item.value} value={item.value}>
+                {item.label}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {/* Table */}
