@@ -10,27 +10,34 @@ const AllCategories = () => {
   const navigate = useNavigate();
   const [categoryList, setcategoryList] = useState([]);
   const [toggle, settoggle] = useState(false);
+  const [search, setsearch] = useState("");
 
   useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:3000/admin/allcategories",
-        );
-        setcategoryList(res?.data?.categories);
-      } catch (err) {
-        if (axios.isAxiosError(err)) {
-          toast.error(err.response?.data?.message || "Something went wrong");
-        } else {
-          toast.error("Something went wrong");
+    const timer = setTimeout(() => {
+      const getCategories = async () => {
+        try {
+          const res = await axios.get(
+            `http://localhost:3000/admin/allcategories?search=${search}`,
+          );
+          setcategoryList(res?.data?.categories);
+        } catch (err) {
+          if (axios.isAxiosError(err)) {
+            toast.error(err.response?.data?.message || "Something went wrong");
+          } else {
+            toast.error("Something went wrong");
+          }
+
+          console.log(err);
         }
+      };
 
-        console.log(err);
-      }
+      getCategories();
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
     };
-
-    getCategories();
-  }, [toggle]);
+  }, [toggle,search]);
 
   const handleDeleteCategory = async (id) => {
     try {
@@ -66,7 +73,20 @@ const AllCategories = () => {
             Manage all product categories
           </p>
         </div>
+      </div>
 
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row justify-between">
+        {/* Search */}
+        <div className="flex">
+          <input
+            type="text"
+            placeholder="Search Category..."
+            onChange={(e) => {
+              setsearch(e.target.value);
+            }}
+            className="w-full sm:w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#222] shadow-sm outline-none transition placeholder:text-gray-400 focus:border-[#d4a853] focus:ring-2 focus:ring-[#d4a853]/20"
+          />
+        </div>
         <button
           type="button"
           onClick={() => {

@@ -7,6 +7,7 @@ import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../Redux/store";
+import { FaFileDownload } from "react-icons/fa";
 
 const MyOrders = () => {
   const navigate = useNavigate();
@@ -36,6 +37,35 @@ const MyOrders = () => {
 
     getMyStock();
   }, []);
+
+  const downloadInvoice = async (orderId: string) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/invoice/${orderId}`,
+        {
+          withCredentials: true,
+          responseType: "blob",
+        },
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = `invoice-${orderId}.pdf`;
+
+      document.body.appendChild(link);
+
+      link.click();
+
+      link.remove();
+
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="w-full">
@@ -71,6 +101,10 @@ const MyOrders = () => {
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
                   Status
                 </th>
+
+                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                  Invoice
+                </th>
               </tr>
             </thead>
 
@@ -92,10 +126,20 @@ const MyOrders = () => {
                     {item?.totalAmount}
                   </td>
 
-                 <td className="px-4 py-3 text-center sm:px-6 sm:py-4">
+                  <td className="px-4 py-3 text-center sm:px-6 sm:py-4">
                     <span className="rounded-full bg-[#EFF6FF] px-3 py-1 text-xs font-semibold capitalize text-[#2563EB] ">
                       {item?.orderStatus}
                     </span>
+                  </td>
+
+                  <td className="px-4 py-3 text-center sm:px-6 sm:py-4">
+                    <button
+                      type="button"
+                      onClick={() => downloadInvoice(item?._id)}
+                      className="rounded-lg  px-4 py-2 text-sm font-semibold text-black pointer-fine:"
+                    >
+                      <FaFileDownload/>
+                    </button>
                   </td>
                 </tr>
               ))}

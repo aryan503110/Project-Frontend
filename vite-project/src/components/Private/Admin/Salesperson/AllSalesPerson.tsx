@@ -9,44 +9,73 @@ import { MdDeleteOutline } from "react-icons/md";
 const AllSalesPerson = () => {
   const navigate = useNavigate();
   const [salesPersonList, setsalesPersonList] = useState([]);
+  const [search, setsearch] = useState("");
 
   useEffect(() => {
-    const getSalespersons = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:3000/admin/allsalesperson",
-        );
-        setsalesPersonList(res?.data?.salespersons);
-      } catch (err) {
-        if (axios.isAxiosError(err)) {
-          toast.error(err.response?.data?.message || "Something went wrong");
-        } else {
-          toast.error("Something went wrong");
+    const timer = setTimeout(() => {
+      const getSalespersons = async () => {
+        try {
+          const res = await axios.get(
+            `http://localhost:3000/admin/allsalesperson?search=${search}`,
+          );
+          setsalesPersonList(res?.data?.salespersons);
+        } catch (err) {
+          if (axios.isAxiosError(err)) {
+            toast.error(err.response?.data?.message || "Something went wrong");
+          } else {
+            toast.error("Something went wrong");
+          }
+
+          console.log(err);
         }
+      };
 
-        console.log(err);
-      }
+      getSalespersons();
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
     };
-
-    getSalespersons();
-  }, []);
+  }, [search]);
 
   return (
     <>
       <div className="w-full">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-[#222] sm:text-3xl">SalesPerson List</h1>
+          <h1 className="text-2xl font-bold text-[#222] sm:text-3xl">
+            SalesPerson List
+          </h1>
 
           <p className="mt-1 text-sm text-gray-500">Manage all salespersons</p>
+        </div>
+
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row">
+          {/* Search */}
+          <div className="flex">
+            <input
+              type="text"
+              placeholder="Search Salesperson..."
+              onChange={(e) => {
+                setsearch(e.target.value);
+              }}
+              className="w-75 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#222] shadow-sm outline-none transition placeholder:text-gray-400 focus:border-[#d4a853] focus:ring-2 focus:ring-[#d4a853]/20"
+            />
+          </div>
         </div>
 
         <div className="overflow-x-auto rounded-2xl border border-gray-200 bg-white shadow-sm">
           <table className="w-full min-w-[620px] text-left">
             <thead className="bg-[#222] text-white">
               <tr>
-                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">Name</th>
-                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">Email</th>
-                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">Role</th>
+                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                  Name
+                </th>
+                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                  Email
+                </th>
+                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                  Role
+                </th>
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
                   Actions
                 </th>
@@ -77,8 +106,8 @@ const AllSalesPerson = () => {
                     <div className="flex items-center justify-center gap-3">
                       <button
                         type="button"
-                        onClick={()=>{
-                          navigate(`/salespersonbyid/${item?._id}`)
+                        onClick={() => {
+                          navigate(`/salespersonbyid/${item?._id}`);
                         }}
                         className="flex h-9 w-9 items-center justify-center rounded-lg border border-blue-200 text-[#2563EB] transition hover:bg-[#2563EB] hover:text-white"
                       >

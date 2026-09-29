@@ -6,15 +6,45 @@ import { toast } from "react-toastify";
 const Explore = () => {
   const navigate = useNavigate();
   const [productList, setproductList] = useState([]);
+  const [categoryList, setcategoryList] = useState([]);
+  const [search, setsearch] = useState("");
+  const [categoryId, setcategoryId] = useState("");
 
   useEffect(() => {
-    const getProducts = async () => {
+    const timer = setTimeout(() => {
+      const getProducts = async () => {
+        try {
+          const res = await axios.get(
+            `http://localhost:3000/customer/availablecustomerproducts?search=${search}&category=${categoryId}`,
+          );
+
+          setproductList(res?.data?.stock || []);
+        } catch (err) {
+          if (axios.isAxiosError(err)) {
+            toast.error(err.response?.data?.message || "Something went wrong");
+          } else {
+            toast.error("Something went wrong");
+          }
+
+          console.log(err);
+        }
+      };
+
+      getProducts();
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [search, categoryId]);
+
+  useEffect(() => {
+    const getCategories = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/customer/availablecustomerproducts",
+          "http://localhost:3000/admin/allcategories",
         );
-
-        setproductList(res?.data?.stock || []);
+        setcategoryList(res?.data?.categories);
       } catch (err) {
         if (axios.isAxiosError(err)) {
           toast.error(err.response?.data?.message || "Something went wrong");
@@ -26,17 +56,18 @@ const Explore = () => {
       }
     };
 
-    getProducts();
+    getCategories();
   }, []);
+
+  const categoryOptions = categoryList?.map((item) => ({
+    label: item?.categoryName,
+    value: item?._id,
+  }));
 
   return (
     <div className="w-full">
       {/* Header */}
       <div className="mb-7">
-        <p className="text-xs font-semibold uppercase tracking-widest text-[#b18a3e]">
-          Discover
-        </p>
-
         <h1 className="mt-1 text-2xl font-bold text-[#222] sm:text-3xl">
           Explore Products
         </h1>
@@ -44,6 +75,39 @@ const Explore = () => {
         <p className="mt-1 text-sm text-gray-500">
           Browse our available products.
         </p>
+      </div>
+
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row">
+        {/* Search */}
+        <div className="flex">
+          <input
+            type="text"
+            placeholder="Search products..."
+            onChange={(e) => {
+              setsearch(e.target.value);
+            }}
+            className="w-75 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#222] shadow-sm outline-none transition placeholder:text-gray-400 focus:border-[#d4a853] focus:ring-2 focus:ring-[#d4a853]/20"
+          />
+        </div>
+
+        {/* Category */}
+        <div className="sm:w-56">
+          <select
+            value={categoryId}
+            onChange={(e) => {
+              setcategoryId(e.target.value);
+            }}
+            className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-[#222] shadow-sm outline-none transition focus:border-[#d4a853] focus:ring-2 focus:ring-[#d4a853]/20"
+          >
+            <option value="">All Categories</option>
+
+            {categoryOptions?.map((item) => (
+              <option key={item.value} value={item.value}>
+                {item.label}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {/* Product Cards */}
