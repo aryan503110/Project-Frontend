@@ -4,7 +4,6 @@ import Login from "../Public/Login";
 import AdminHome from "../Private/Admin/AdminHome";
 import ProtectedRoute from "../protectedRoute/ProtectedRoute";
 import SalespersonHome from "../Private/SalesPerson/SalespersonHome";
-import CustomerHome from "../Private/Customer/CustomerHome";
 import Unauthorized from "../Public/Unauthorized";
 import Forgotpassword from "../Public/ForgotPassword/Forgotpassword";
 import OTPAuthenticator from "../Public/ForgotPassword/OTPAuthenticator";
@@ -35,6 +34,7 @@ import MyOrders from "../Private/Customer/MyOrders/MyOrders";
 import Orders from "../Private/SalesPerson/Orders/Orders";
 import BuyPremium from "../Private/Customer/BuyPremium";
 import PremiumSuccess from "../Private/Customer/PremiumSuccess";
+import UserProfileEdit from "../Private/CommonPrivate/UserProfileEdit";
 
 const AppRoutes = () => {
   return (
@@ -46,6 +46,11 @@ const AppRoutes = () => {
         <Route path="/reset-password" element={<ResetPassword />}></Route>
         <Route path="/unauthorized" element={<Unauthorized />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route element={<ProtectedRoute />}>
+          <Route element={<Layout />}>
+            <Route path="/userprofile/edit" element={<UserProfileEdit />} />
+          </Route>
+        </Route>
         <Route element={<ProtectedRoute role="admin" />}>
           <Route element={<Layout />}>
             <Route path="/home" element={<AdminHome />}></Route>
@@ -106,7 +111,6 @@ const AppRoutes = () => {
         </Route>
         <Route element={<ProtectedRoute role="customer" />}>
           <Route element={<Layout />}>
-            <Route path="/customerhome" element={<CustomerHome />}></Route>
             <Route path="/explore" element={<Explore />}></Route>
             <Route
               path="/exploreproductbyid/:id"

@@ -45,6 +45,19 @@ const Navbar = () => {
     }
   };
 
+  const handleUserProfileEdit = async () => {
+    try {
+      navigate("/userprofile/edit");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        toast.error(err.response?.data?.message || "Something went wrong");
+      } else {
+        toast.error("Something went wrong");
+      }
+      console.log(err);
+    }
+  };
+
   return (
     <nav className="shrink-0 bg-[#222] text-white md:min-h-screen md:w-60">
       <div className="flex items-center justify-between p-4 md:hidden">
@@ -102,7 +115,10 @@ const Navbar = () => {
           isDrawerOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="mb-8 flex items-center justify-between">
+        <div
+          className="mb-8 flex items-center justify-between cursor-pointer"
+          onClick={handleUserProfileEdit}
+        >
           <div className="flex items-center gap-3">
             {image ? (
               <img
@@ -244,14 +260,6 @@ const Navbar = () => {
           {/* Customer Links */}
           {role === "customer" && (
             <>
-              <Link
-                to="/customerhome"
-                onClick={closeDrawer}
-                className={linkClass("/customerhome")}
-              >
-                Home
-              </Link>
-
               <Link
                 to="/explore"
                 onClick={closeDrawer}

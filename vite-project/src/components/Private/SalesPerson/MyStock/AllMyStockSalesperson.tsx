@@ -148,7 +148,7 @@ const AllMyStockSalesperson = () => {
               {stock?.length === 0 && (
                 <tr>
                   <td
-                    colSpan={4}
+                    colSpan={6}
                     className="px-6 py-12 text-center text-sm text-gray-500"
                   >
                     No products found.

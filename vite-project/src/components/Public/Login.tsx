@@ -39,7 +39,7 @@ const Login = () => {
       } else if (res?.data?.role === "salesperson") {
         navigate("/salespersonhome");
       } else {
-        navigate("/customerhome");
+        navigate("/explore");
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
