@@ -59,8 +59,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="shrink-0 bg-[#222] text-white md:min-h-screen md:w-60">
-      <div className="flex items-center justify-between p-4 md:hidden">
+   <nav className="shrink-0 bg-[#222] text-white md:min-h-screen md:w-60">
+     <div className="flex items-center justify-between bg-[#222] p-4 md:hidden">
         <div className="flex items-center gap-3">
           {image ? (
             <img
@@ -111,7 +111,7 @@ const Navbar = () => {
       )}
 
       <div
-        className={`fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-[#222] p-5 shadow-2xl transition-transform duration-300 md:static md:min-h-screen md:w-60 md:translate-x-0 md:shadow-none ${
+      className={`fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col bg-[#222] p-5 shadow-2xl transition-transform duration-300 md:static md:min-h-screen md:w-60 md:translate-x-0 md:shadow-none ${
           isDrawerOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

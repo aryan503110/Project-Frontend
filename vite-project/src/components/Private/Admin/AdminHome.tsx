@@ -24,6 +24,7 @@ import {
   BarChart,
   Bar,
 } from "recharts";
+import ReactMarkdown from "react-markdown";
 
 const AdminHome = () => {
   axios.defaults.withCredentials = true;
@@ -31,8 +32,26 @@ const AdminHome = () => {
   const [revenue, setRevenue] = useState<any[]>([]);
   const [orderStatus, setOrderStatus] = useState<any[]>([]);
   const [topProducts, setTopProducts] = useState<any[]>([]);
+  const [aiAnalysis, setAIAnalysis] = useState<any>(null);
 
   useEffect(() => {
+    const getAIAnalysis = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:3000/gemini/latest-analysis`,
+        );
+        setAIAnalysis(res.data.analysis);
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          toast.error(err.response?.data?.message || "Something went wrong");
+        } else {
+          toast.error("Something went wrong");
+        }
+
+        console.log(err);
+      }
+    };
+
     const getAdminDashboard = async () => {
       try {
         const res = await axios.get(`http://localhost:3000/admin/dashboard`);
@@ -99,6 +118,7 @@ const AdminHome = () => {
     getAdminDashboardRevenue();
     getOrderStatus();
     getTopProducts();
+    getAIAnalysis();
   }, []);
 
   const cards = [
@@ -283,6 +303,42 @@ const AdminHome = () => {
           </div>
         </div>
       </div>
+
+      {/* AI Business Analysis */}
+      <div className="mt-6 overflow-hidden rounded-2xl border border-[#d4a853]/20 bg-[#222] shadow-lg">
+        <div className="border-b border-white/10 px-6 py-5 sm:px-8">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#d4a853]/15 text-[#d4a853]">
+              <FiTrendingUp size={20} />
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-white">
+                AI Business Analysis
+              </h2>
+
+              <p className="mt-1 text-sm text-gray-400">
+                AI-generated insights based on your store data
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="px-6 py-6 sm:px-8">
+          {aiAnalysis ? (
+            <div className="text-sm leading-7 text-gray-300">
+              <ReactMarkdown>{aiAnalysis.analysis}</ReactMarkdown>
+            </div>
+          ) : (
+            <div className="py-8 text-center">
+              <p className="text-sm text-gray-400">
+                No AI analysis available yet.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
       <div className="mt-6 w-full rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
         <h2 className="text-xl font-bold text-[#222]">Top Selling Products</h2>
 
