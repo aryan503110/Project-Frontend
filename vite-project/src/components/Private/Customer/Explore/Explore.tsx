@@ -15,7 +15,7 @@ const Explore = () => {
       const getProducts = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:3000/customer/availablecustomerproducts?search=${search}&category=${categoryId}`,
+            `${import.meta.env.VITE_API_URL}/customer/availablecustomerproducts?search=${search}&category=${categoryId}`,
           );
 
           setproductList(res?.data?.stock || []);
@@ -42,7 +42,7 @@ const Explore = () => {
     const getCategories = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/admin/allcategories",
+          `${import.meta.env.VITE_API_URL}/admin/allcategories`,
         );
         setcategoryList(res?.data?.categories);
       } catch (err) {

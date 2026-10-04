@@ -19,7 +19,7 @@ const AdminAllStockRequest = () => {
       const getProducts = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:3000/salesperson/allstockrequests?search=${search}&salesperson=${salespersonId}`,
+            `${import.meta.env.VITE_API_URL}/salesperson/allstockrequests?search=${search}&salesperson=${salespersonId}`,
           );
           setproductList(res?.data?.stockRequests);
         } catch (err) {
@@ -40,7 +40,7 @@ const AdminAllStockRequest = () => {
     setLoading(true);
     try {
       const res = await axios.put(
-        "http://localhost:3000/salesperson/approvestockrequest/" + id,
+        `${import.meta.env.VITE_API_URL}/salesperson/approvestockrequest/` + id,
       );
 
       toast.success(res?.data?.message);
@@ -61,7 +61,7 @@ const AdminAllStockRequest = () => {
     setLoading(true);
     try {
       const res = await axios.put(
-        "http://localhost:3000/salesperson/rejectstockrequest/" + id,
+        `${import.meta.env.VITE_API_URL}/salesperson/rejectstockrequest/` + id,
       );
 
       toast.success(res?.data?.message);
@@ -82,7 +82,7 @@ const AdminAllStockRequest = () => {
     const getSalespersons = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/admin/allsalesperson",
+          `${import.meta.env.VITE_API_URL}/admin/allsalesperson`,
         );
         setsalesPersonList(res?.data?.salespersons);
       } catch (err) {

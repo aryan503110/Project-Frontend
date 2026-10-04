@@ -38,7 +38,7 @@ const AdminHome = () => {
     const getAIAnalysis = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/gemini/latest-analysis`,
+          `${import.meta.env.VITE_API_URL}/gemini/latest-analysis`,
         );
         setAIAnalysis(res.data.analysis);
       } catch (err) {
@@ -54,7 +54,7 @@ const AdminHome = () => {
 
     const getAdminDashboard = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/admin/dashboard`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/dashboard`);
         setDashboard(res.data.dashboard);
       } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -70,7 +70,7 @@ const AdminHome = () => {
     const getAdminDashboardRevenue = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/admin/dashboard/revenue`,
+          `${import.meta.env.VITE_API_URL}/admin/dashboard/revenue`,
         );
         setRevenue(res.data.revenue);
       } catch (err) {
@@ -87,7 +87,7 @@ const AdminHome = () => {
     const getOrderStatus = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/admin/dashboard/order-status",
+          `${import.meta.env.VITE_API_URL}/admin/dashboard/order-status`,
           {
             withCredentials: true,
           },
@@ -102,7 +102,7 @@ const AdminHome = () => {
     const getTopProducts = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/admin/dashboard/top-products",
+          `${import.meta.env.VITE_API_URL}/admin/dashboard/top-products`,
           {
             withCredentials: true,
           },

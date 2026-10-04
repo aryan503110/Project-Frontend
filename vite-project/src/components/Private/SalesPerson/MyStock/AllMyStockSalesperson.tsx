@@ -19,7 +19,7 @@ const AllMyStockSalesperson = () => {
       const getMyStock = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:3000/salesperson/salespersonmystock/${userId}?search=${search}`,
+            `${import.meta.env.VITE_API_URL}/salesperson/salespersonmystock/${userId}?search=${search}`,
           );
 
           setstock(res?.data?.stock);

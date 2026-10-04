@@ -21,7 +21,7 @@ const CreateAdminStock = () => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/admin/allproducts");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/allproducts`);
 
         setproductList(res?.data?.products);
       } catch (err) {
@@ -58,7 +58,7 @@ const CreateAdminStock = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/admin/createadminstock",
+        `${import.meta.env.VITE_API_URL}/admin/createadminstock`,
         adminstockdata,
       );
 

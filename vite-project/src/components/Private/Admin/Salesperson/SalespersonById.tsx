@@ -16,7 +16,7 @@ const SalespersonById = () => {
     const getSalespersonsById = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/admin/getsalespersonbyid/" + id,
+          `${import.meta.env.VITE_API_URL}/admin/getsalespersonbyid/` + id,
         );
         setname(res?.data?.salesperson?.name);
         setemail(res?.data?.salesperson?.email);
@@ -48,7 +48,7 @@ const SalespersonById = () => {
     setLoading(true);
     try {
       const res = await axios.put(
-        "http://localhost:3000/admin/updatesalespersonbyid",
+        `${import.meta.env.VITE_API_URL}/admin/updatesalespersonbyid`,
         formdata,
       );
 

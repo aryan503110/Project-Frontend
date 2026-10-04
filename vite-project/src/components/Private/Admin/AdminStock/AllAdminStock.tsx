@@ -17,7 +17,7 @@ const AllAdminStock = () => {
       const getAdminStock = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:3000/admin/alladminstock?search=${search}`,
+            `${import.meta.env.VITE_API_URL}/admin/alladminstock?search=${search}`,
           );
           setadminStockList(res?.data?.adminstock);
         } catch (err) {
@@ -44,7 +44,7 @@ const AllAdminStock = () => {
         return toast.error("Cannot find admin stock");
       }
       const res = await axios.delete(
-        "http://localhost:3000/admin/deleteadminstock/" + id,
+        `${import.meta.env.VITE_API_URL}/admin/deleteadminstock/` + id,
       );
 
       toast.success(res?.data?.message);

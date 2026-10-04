@@ -15,7 +15,7 @@ const ProductSalesperson = () => {
       const getProducts = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:3000/salesperson/allproducts?search=${search}&category=${categoryId}`,
+            `${import.meta.env.VITE_API_URL}/salesperson/allproducts?search=${search}&category=${categoryId}`,
           );
           setproductList(res?.data?.products);
         } catch (err) {
@@ -40,7 +40,7 @@ const ProductSalesperson = () => {
     const getCategories = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/admin/allcategories",
+          `${import.meta.env.VITE_API_URL}/admin/allcategories`,
         );
         setcategoryList(res?.data?.categories);
       } catch (err) {

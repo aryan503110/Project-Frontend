@@ -23,7 +23,7 @@ const MyOrders = () => {
       const getMyStock = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:3000/customer/myorder/${userId}?search=${search}&status=${status}`,
+            `${import.meta.env.VITE_API_URL}/customer/myorder/${userId}?search=${search}&status=${status}`,
           );
           setmyOrders(res?.data?.order);
           console.log("res", res.data.order);
@@ -47,7 +47,7 @@ const MyOrders = () => {
   const downloadInvoice = async (orderId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/invoice/${orderId}`,
+        `${import.meta.env.VITE_API_URL}/invoice/${orderId}`,
         {
           withCredentials: true,
           responseType: "blob",

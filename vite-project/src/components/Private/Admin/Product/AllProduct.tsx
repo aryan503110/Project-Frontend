@@ -19,7 +19,7 @@ const AllProduct = () => {
       const getProducts = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:3000/admin/allproducts?search=${search}&category=${categoryId}`,
+            `${import.meta.env.VITE_API_URL}/admin/allproducts?search=${search}&category=${categoryId}`,
           );
           setproductList(res?.data?.products);
         } catch (err) {
@@ -46,7 +46,7 @@ const AllProduct = () => {
         return toast.error("Cannot find category");
       }
       const res = await axios.delete(
-        "http://localhost:3000/admin/deleteproduct/" + id,
+        `${import.meta.env.VITE_API_URL}/admin/deleteproduct/` + id,
       );
 
       toast.success(res?.data?.message);
@@ -65,7 +65,7 @@ const AllProduct = () => {
     const getCategories = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/admin/allcategories",
+          `${import.meta.env.VITE_API_URL}/admin/allcategories`,
         );
         setcategoryList(res?.data?.categories);
       } catch (err) {
@@ -146,7 +146,7 @@ const AllProduct = () => {
       {/* Table */}
       <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[480px] text-left">
+          <table className="w-full min-w-120 text-left">
             <thead className="bg-[#222] text-white">
               <tr>
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">

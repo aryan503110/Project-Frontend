@@ -17,7 +17,7 @@ const CategoryById = () => {
     const getCategoryById = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/admin/getcategorybyid/" + id,
+          `${import.meta.env.VITE_API_URL}/admin/getcategorybyid/` + id,
         );
         setcategoryName(res?.data?.category?.categoryName);
       } catch (err) {
@@ -43,7 +43,7 @@ const CategoryById = () => {
     setLoading(true);
     try {
       const res = await axios.put(
-        "http://localhost:3000/admin/updatecategory/" + id,
+        `${import.meta.env.VITE_API_URL}/admin/updatecategory/` + id,
         categorydata,
       );
 

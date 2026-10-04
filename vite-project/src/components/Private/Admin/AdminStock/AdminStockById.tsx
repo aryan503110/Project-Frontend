@@ -25,7 +25,7 @@ const AdminStockById = () => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/admin/allproducts");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/allproducts`);
 
         setproductList(res?.data?.products);
       } catch (err) {
@@ -46,7 +46,7 @@ const AdminStockById = () => {
     const getAdminStockById = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/admin/getadminstockbyid/" + id,
+          `${import.meta.env.VITE_API_URL}/admin/getadminstockbyid/` + id,
         );
         setproductId(res?.data?.adminstock?.product);
         setstock(res?.data?.adminstock?.stock);
@@ -76,7 +76,7 @@ const AdminStockById = () => {
     setLoading(true);
     try {
       const res = await axios.put(
-        "http://localhost:3000/admin/updateadminstock/" + id,
+        `${import.meta.env.VITE_API_URL}/admin/updateadminstock/` + id,
         adminstockdata,
       );
 

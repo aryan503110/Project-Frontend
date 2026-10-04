@@ -19,7 +19,7 @@ const Orders = () => {
       const getProducts = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:3000/salesperson/ordersbysalesperson/${userId}?search=${search}&status=${status}`,
+            `${import.meta.env.VITE_API_URL}/salesperson/ordersbysalesperson/${userId}?search=${search}&status=${status}`,
           );
           setorders(res?.data?.order);
         } catch (err) {
@@ -43,7 +43,7 @@ const Orders = () => {
   const changeStatus = async (id, status) => {
     try {
       const res = await axios.put(
-        "http://localhost:3000/salesperson/changeorderstatus",
+        `${import.meta.env.VITE_API_URL}/salesperson/changeorderstatus`,
         {
           orderId: id,
           status: status,

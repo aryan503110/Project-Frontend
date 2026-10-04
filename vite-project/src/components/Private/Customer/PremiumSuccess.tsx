@@ -11,7 +11,7 @@ const PremiumSuccess = () => {
     const activatePremium = async () => {
       try {
         await axios.post(
-          "http://localhost:3000/user/activate-premium",
+          `${import.meta.env.VITE_API_URL}/user/activate-premium`,
           {
             sessionId,
           },

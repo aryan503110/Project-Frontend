@@ -14,12 +14,12 @@ const CreateStockRequest = () => {
   const [Loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const getProducts = async () => {
+    const getAvailableStock = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/salesperson/allproducts",
+          `${import.meta.env.VITE_API_URL}/admin/alladminstock`,
         );
-        setproductList(res?.data?.products);
+        setproductList(res?.data?.adminstock);
       } catch (err) {
         if (axios.isAxiosError(err)) {
           toast.error(err.response?.data?.message || "Something went wrong");
@@ -31,7 +31,7 @@ const CreateStockRequest = () => {
       }
     };
 
-    getProducts();
+    getAvailableStock();
   }, []);
 
   const handleAddProduct = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -45,7 +45,7 @@ const CreateStockRequest = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/salesperson/createstockrequest",
+        `${import.meta.env.VITE_API_URL}/salesperson/createstockrequest`,
         { salesperson: userId, product: productId, stock },
       );
 
@@ -74,7 +74,7 @@ const CreateStockRequest = () => {
       {/* Header */}
       <div className="mb-6 sm:mb-8">
         <h1 className="text-2xl font-semibold text-[#222] sm:text-3xl">
-          Create Product
+          Create Stock Request
         </h1>
       </div>
 
@@ -97,8 +97,8 @@ const CreateStockRequest = () => {
             </option>
 
             {productList?.map((item) => (
-              <option key={item?._id} value={item?._id}>
-                {item?.name}
+              <option key={item?.product?._id} value={item?.product?._id}>
+                {item?.product?.name}
               </option>
             ))}
           </select>

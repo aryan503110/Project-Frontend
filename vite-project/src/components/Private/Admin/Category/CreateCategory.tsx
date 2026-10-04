@@ -19,7 +19,7 @@ const CreateCategory = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/admin/createcategory",
+        `${import.meta.env.VITE_API_URL}/admin/createcategory`,
         categorydata,
       );
 

@@ -20,7 +20,7 @@ const ExploreProductById = () => {
     const getById = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/customer/productbyidcustomer/" + id,
+          `${import.meta.env.VITE_API_URL}/customer/productbyidcustomer/` + id,
         );
 
         setProduct(res?.data?.stock);

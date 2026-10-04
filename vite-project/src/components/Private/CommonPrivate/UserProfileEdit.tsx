@@ -20,7 +20,7 @@ const UserProfileEdit = () => {
     const getUserById = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/user/get-user/${userId}`,
+          `${import.meta.env.VITE_API_URL}/user/get-user/${userId}`,
         );
         setName(res?.data?.user?.name);
         setEmail(res?.data?.user?.email);
@@ -53,7 +53,7 @@ const UserProfileEdit = () => {
     setLoading(true);
     try {
       const res = await axios.put(
-        `http://localhost:3000/user/update-user/${userId}`,
+        `${import.meta.env.VITE_API_URL}/user/update-user/${userId}`,
         formdata,
       );
 

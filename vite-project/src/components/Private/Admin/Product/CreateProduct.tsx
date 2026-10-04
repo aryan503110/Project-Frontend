@@ -16,7 +16,7 @@ const CreateProduct = () => {
     const getCategories = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/admin/allcategories",
+          `${import.meta.env.VITE_API_URL}/admin/allcategories`,
         );
         setcategoryList(res?.data?.categories);
       } catch (err) {
@@ -51,7 +51,7 @@ const CreateProduct = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/admin/createproduct",
+        `${import.meta.env.VITE_API_URL}/admin/createproduct`,
         formData,
       );
 

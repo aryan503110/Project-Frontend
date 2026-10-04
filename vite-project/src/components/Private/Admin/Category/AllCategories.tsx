@@ -17,7 +17,7 @@ const AllCategories = () => {
       const getCategories = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:3000/admin/allcategories?search=${search}`,
+            `${import.meta.env.VITE_API_URL}/admin/allcategories?search=${search}`,
           );
           setcategoryList(res?.data?.categories);
         } catch (err) {
@@ -45,7 +45,7 @@ const AllCategories = () => {
         return toast.error("Cannot find category");
       }
       const res = await axios.delete(
-        "http://localhost:3000/admin/deletecategory/" + id,
+        `${import.meta.env.VITE_API_URL}/admin/deletecategory/` + id,
       );
 
       toast.success(res?.data?.message);

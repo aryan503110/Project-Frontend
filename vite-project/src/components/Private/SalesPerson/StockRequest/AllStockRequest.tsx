@@ -18,7 +18,7 @@ const AllStockRequest = () => {
       const getProducts = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:3000/salesperson/allstockrequests/${userId}?search=${search}&status=${status}`,
+            `${import.meta.env.VITE_API_URL}/salesperson/allstockrequests/${userId}?search=${search}&status=${status}`,
           );
           setproductList(res?.data?.stockRequests);
         } catch (err) {

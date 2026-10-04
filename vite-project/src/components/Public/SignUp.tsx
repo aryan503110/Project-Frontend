@@ -33,7 +33,7 @@ const SignUp = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/user/signup",
+        `${import.meta.env.VITE_API_URL}/user/signup`,
         formData,
       );
 
@@ -62,14 +62,14 @@ const SignUp = () => {
       {/* soft light source behind the card */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-0 h-105 w-180 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-3xl"
         style={{
           background:
             "radial-gradient(circle, rgba(212,168,83,0.22) 0%, rgba(212,168,83,0) 70%)",
         }}
       />
 
-      <div className="relative w-full max-w-[420px]">
+      <div className="relative w-full max-w-105">
         <div className="rounded-[20px] border border-white/10 bg-[#262626] p-8 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)] sm:p-10">
           <h1 className="text-[26px] font-semibold leading-tight tracking-tight text-zinc-50">
             Create your account
@@ -133,7 +133,7 @@ const SignUp = () => {
                 value={role}
                 onChange={(e) => setRole(e.target.value as Role)}
                 required
-                className={`${field} cursor-pointer appearance-none bg-[length:18px] bg-[right_1rem_center] bg-no-repeat pr-11 [&>option]:bg-[#1c1c1c] [&>option]:text-zinc-100 ${
+                className={`${field} cursor-pointer appearance-none bg-size-[18px] bg-position-[right_1rem_center] bg-no-repeat pr-11 [&>option]:bg-[#1c1c1c] [&>option]:text-zinc-100 ${
                   role === "" ? "text-zinc-600" : ""
                 }`}
                 style={{
@@ -169,7 +169,7 @@ const SignUp = () => {
             <button
               type="submit"
               disabled={loading}
-              className="!mt-7 w-full rounded-xl bg-[#d4a853] px-4 py-3 text-[15px] font-semibold text-[#221b0c] transition hover:bg-[#e0b66a] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#d4a853]/30 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-7! w-full rounded-xl bg-[#d4a853] px-4 py-3 text-[15px] font-semibold text-[#221b0c] transition hover:bg-[#e0b66a] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#d4a853]/30 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? "Creating account…" : "Sign up"}
             </button>

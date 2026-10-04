@@ -18,7 +18,7 @@ const ProducyById = () => {
     const getCategories = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/admin/allcategories",
+          `${import.meta.env.VITE_API_URL}/admin/allcategories`,
         );
         setcategoryList(res?.data?.categories);
       } catch (err) {
@@ -39,7 +39,7 @@ const ProducyById = () => {
     const getProductById = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/admin/getproductbyid/" + id,
+          `${import.meta.env.VITE_API_URL}/admin/getproductbyid/` + id,
         );
         setname(res?.data?.product?.name);
         setdescription(res?.data?.product?.description);
@@ -72,7 +72,7 @@ const ProducyById = () => {
     setLoading(true);
     try {
       const res = await axios.put(
-        "http://localhost:3000/admin/upadteproduct/" + id,
+        `${import.meta.env.VITE_API_URL}/admin/upadteproduct/` + id,
         formdata,
       );
 

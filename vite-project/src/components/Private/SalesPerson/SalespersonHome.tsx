@@ -35,7 +35,7 @@ const SalespersonHome = () => {
     const getSalespersonDashboard = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/salesperson/dashboard`,
+          `${import.meta.env.VITE_API_URL}/salesperson/dashboard`,
         );
         setDashboard(res.data.dashboard);
       } catch (err) {
@@ -52,7 +52,7 @@ const SalespersonHome = () => {
     const getSalespersonDashboardRevenue = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/salesperson/dashboard/revenue`,
+          `${import.meta.env.VITE_API_URL}/salesperson/dashboard/revenue`,
         );
         setRevenue(res.data.revenue);
       } catch (err) {
@@ -69,7 +69,7 @@ const SalespersonHome = () => {
     const getSalespersonTopProducts = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/salesperson/dashboard/top-products",
+          `${import.meta.env.VITE_API_URL}/salesperson/dashboard/top-products`,
         );
 
         setTopProducts(res.data.products || []);

@@ -23,7 +23,7 @@ const EditMyStockSalesperson = () => {
     const getData = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/salesperson/salespersonmystockbyid/" + id,
+          `${import.meta.env.VITE_API_URL}/salesperson/salespersonmystockbyid/` + id,
         );
         setname(res?.data?.stock?.product?.name);
         setdescription(res?.data?.stock?.product?.description);
@@ -54,7 +54,7 @@ const EditMyStockSalesperson = () => {
     setLoading(true);
     try {
       const res = await axios.put(
-        "http://localhost:3000/salesperson/updatesalespersonmystockbyid/" + id,
+        `${import.meta.env.VITE_API_URL}/salesperson/updatesalespersonmystockbyid/` + id,
         SalespersonStockUpdate,
       );
 

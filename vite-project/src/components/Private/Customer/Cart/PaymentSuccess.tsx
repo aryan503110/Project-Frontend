@@ -11,7 +11,7 @@ const PaymentSuccess = () => {
   useEffect(() => {
     const createOrder = async () => {
       try {
-        await axios.post("http://localhost:3000/customer/create-order", {
+        await axios.post(`${import.meta.env.VITE_API_URL}/customer/create-order`, {
           sessionId,
         });
       } catch (err) {

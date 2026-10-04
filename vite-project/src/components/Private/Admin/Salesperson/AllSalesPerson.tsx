@@ -16,7 +16,7 @@ const AllSalesPerson = () => {
       const getSalespersons = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:3000/admin/allsalesperson?search=${search}`,
+            `${import.meta.env.VITE_API_URL}/admin/allsalesperson?search=${search}`,
           );
           setsalesPersonList(res?.data?.salespersons);
         } catch (err) {
