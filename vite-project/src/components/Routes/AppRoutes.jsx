@@ -35,12 +35,14 @@ import Orders from "../Private/SalesPerson/Orders/Orders";
 import BuyPremium from "../Private/Customer/BuyPremium";
 import PremiumSuccess from "../Private/Customer/PremiumSuccess";
 import UserProfileEdit from "../Private/CommonPrivate/UserProfileEdit";
+import Welcome from "../Public/Welcome";
 
 const AppRoutes = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<SignUp />}></Route>
+        <Route path="/" element={<Welcome />}></Route>
+         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/forgot-password" element={<Forgotpassword />}></Route>
         <Route path="/otp-page" element={<OTPAuthenticator />}></Route>
         <Route path="/reset-password" element={<ResetPassword />}></Route>

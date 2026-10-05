@@ -140,7 +140,7 @@ const Login = () => {
         <p className="mt-6 text-center text-sm text-zinc-500">
           Don't have an account?{" "}
           <Link
-            to="/"
+            to="/signup"
             className="font-medium text-zinc-200 underline decoration-[#d4a853]/50 underline-offset-4 transition hover:text-[#d4a853]"
           >
             Sign up
