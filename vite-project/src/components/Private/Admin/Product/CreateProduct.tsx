@@ -163,7 +163,7 @@ const CreateProduct = () => {
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <button
           type="button"
-          onClick={() => navigate("/allproducts")}
+          onClick={() => navigate(-1)}
           disabled={Loading}
           className="flex-1 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-600 transition hover:border-gray-300 hover:bg-gray-50 disabled:opacity-50"
         >

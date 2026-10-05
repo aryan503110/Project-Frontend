@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../Redux/store";
-
+axios.defaults.withCredentials = true;
 const CreateStockRequest = () => {
   const navigate = useNavigate();
   const userId = useSelector((state: RootState) => state.auth.userId);
@@ -121,7 +121,7 @@ const CreateStockRequest = () => {
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <button
           type="button"
-          onClick={() => navigate("/allproducts")}
+          onClick={() => navigate(-1)}
           disabled={Loading}
           className="flex-1 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-600 transition hover:border-gray-300 hover:bg-gray-50 disabled:opacity-50"
         >

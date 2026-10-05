@@ -160,7 +160,7 @@ const EditMyStockSalesperson = () => {
         <div className="flex flex-col gap-3 pt-2 sm:flex-row">
           <button
             type="button"
-            onClick={() => navigate("/allproducts")}
+            onClick={() => navigate(-1)}
             disabled={Loading}
             className="flex-1 rounded-xl border border-white/10 px-5 py-3 text-sm font-medium text-zinc-600 transition hover:border-white/20 disabled:opacity-50"
           >
