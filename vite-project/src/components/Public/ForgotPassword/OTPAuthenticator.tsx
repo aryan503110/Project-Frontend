@@ -8,6 +8,8 @@ interface VerifyOTPData {
   otp: number;
 }
 
+axios.defaults.withCredentials = true;
+
 const OTPAuthenticator = () => {
   const navigate = useNavigate();
   const [otp, setOtp] = useState("");
@@ -19,8 +21,6 @@ const OTPAuthenticator = () => {
     // digits only, capped at 6
     setOtp(e.target.value.replace(/\D/g, "").slice(0, 6));
   };
-
-  axios.defaults.withCredentials = true;
 
   const handleSubmitOTP = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

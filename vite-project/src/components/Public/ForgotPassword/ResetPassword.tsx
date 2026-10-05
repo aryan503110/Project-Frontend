@@ -8,6 +8,8 @@ interface ResetPasswordData {
   newPassword: string;
 }
 
+ axios.defaults.withCredentials = true;
+ 
 const ResetPassword = () => {
   const navigate = useNavigate();
   const [newPassword, setNewPassword] = useState("");
@@ -16,7 +18,7 @@ const ResetPassword = () => {
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email");
 
-  axios.defaults.withCredentials = true;
+ 
 
   const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
