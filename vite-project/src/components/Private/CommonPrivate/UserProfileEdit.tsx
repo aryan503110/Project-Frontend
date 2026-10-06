@@ -45,7 +45,9 @@ const UserProfileEdit = () => {
     e.preventDefault();
     const formdata = new FormData();
     formdata.append("name", name);
-    formdata.append("password", password);
+     if (password) {
+      formdata.append("password", password);
+    }
     if (image) {
       formdata.append("image", image);
     }
