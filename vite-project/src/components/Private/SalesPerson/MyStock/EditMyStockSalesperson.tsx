@@ -12,24 +12,28 @@ const EditMyStockSalesperson = () => {
   const [normalsellingprice, setnormalsellingprice] = useState<number>(0);
   const [subscriptionsellingprice, setsubscriptionsellingprice] =
     useState<number>(0);
+  const [onlyPremium, setonlyPremium] = useState<boolean>(false);
   const [Loading, setLoading] = useState(false);
 
   interface salespersonstockupdate {
     normalSellingPrice: number;
     subscriptionSellingPrice: number;
+    onlyPremium: boolean;
   }
 
   useEffect(() => {
     const getData = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/salesperson/salespersonmystockbyid/` + id,
+          `${import.meta.env.VITE_API_URL}/salesperson/salespersonmystockbyid/` +
+            id,
         );
         setname(res?.data?.stock?.product?.name);
         setdescription(res?.data?.stock?.product?.description);
         setstock(res?.data?.stock?.stock);
-        setnormalsellingprice(res?.data?.stock?.normalsellingprice);
-        setsubscriptionsellingprice(res?.data?.stock?.subscriptionsellingprice);
+        setnormalsellingprice(res?.data?.stock?.normalSellingPrice);
+        setsubscriptionsellingprice(res?.data?.stock?.subscriptionSellingPrice);
+        setonlyPremium(res?.data?.stock?.premiumOnly);
       } catch (err) {
         if (axios.isAxiosError(err)) {
           toast.error(err.response?.data?.message || "Something went wrong");
@@ -49,12 +53,14 @@ const EditMyStockSalesperson = () => {
     const SalespersonStockUpdate: salespersonstockupdate = {
       normalSellingPrice: normalsellingprice,
       subscriptionSellingPrice: subscriptionsellingprice,
+      onlyPremium: onlyPremium,
     };
 
     setLoading(true);
     try {
       const res = await axios.put(
-        `${import.meta.env.VITE_API_URL}/salesperson/updatesalespersonmystockbyid/` + id,
+        `${import.meta.env.VITE_API_URL}/salesperson/updatesalespersonmystockbyid/` +
+          id,
         SalespersonStockUpdate,
       );
 
@@ -87,7 +93,7 @@ const EditMyStockSalesperson = () => {
         </h1>
       </div>
       <div className="space-y-3">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div>
             <label className={label}>Product</label>
             <input
@@ -112,9 +118,6 @@ const EditMyStockSalesperson = () => {
               className={field}
             />
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
             <label className={label}>Stock</label>
             <input
@@ -125,7 +128,9 @@ const EditMyStockSalesperson = () => {
               className={field}
             />
           </div>
+        </div>
 
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div>
             <label className={label}>Normal Selling Price</label>
             <input
@@ -139,9 +144,6 @@ const EditMyStockSalesperson = () => {
               onWheel={(e) => e.currentTarget.blur()}
             />
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
             <label className={label}>Subscription Selling Price</label>
             <input
@@ -155,7 +157,21 @@ const EditMyStockSalesperson = () => {
               onWheel={(e) => e.currentTarget.blur()}
             />
           </div>
+          <div>
+            <label className={label}>Premium</label>
+            <select
+              value={onlyPremium.toString()}
+              onChange={(e) => {
+                setonlyPremium(e.target.value === "true");
+              }}
+              className={field + " bg-white"}
+            >
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
         </div>
+
         {/* Buttons */}
         <div className="flex flex-col gap-3 pt-2 sm:flex-row">
           <button

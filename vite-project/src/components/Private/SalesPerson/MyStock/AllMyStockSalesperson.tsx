@@ -95,6 +95,10 @@ const AllMyStockSalesperson = () => {
                 </th>
 
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                  Only Premium
+                </th>
+
+                <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
                   Actions
                 </th>
               </tr>
@@ -124,6 +128,12 @@ const AllMyStockSalesperson = () => {
 
                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
                     {item?.subscriptionSellingPrice}
+                  </td>
+
+                  <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
+                    <span className="rounded-full bg-[#EFF6FF] px-3 py-1 text-xs font-semibold capitalize text-[#2563EB] ">
+                      {item?.premiumOnly ? "Yes" : "No"}
+                    </span>
                   </td>
 
                   <td className="px-4 py-4 sm:px-6 sm:py-5">

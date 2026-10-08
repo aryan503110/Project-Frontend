@@ -69,6 +69,10 @@ const CreateStockRequest = () => {
 
   const label = "mb-2 block text-[13px] font-medium text-zinc-600";
 
+  const selectedProduct = productList?.find(
+    (item) => item?.product?._id === productId,
+  );
+
   return (
     <div className="w-full">
       {/* Header */}
@@ -83,12 +87,12 @@ const CreateStockRequest = () => {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
           <label className={label}>Product</label>
-
           <select
             required
             value={productId}
             onChange={(e) => {
               setproductId(e.target.value);
+              setstock(0);
             }}
             className={field + " bg-white"}
           >
@@ -109,9 +113,15 @@ const CreateStockRequest = () => {
             type="number"
             placeholder="Enter Stock"
             value={stock}
+            min={1}
+            max={selectedProduct?.stock ?? 0}
             onChange={(e) => {
-              setstock(Number(e.target.value));
+              const value = Number(e.target.value);
+              const maxStock = selectedProduct?.stock ?? 0;
+
+              setstock(Math.min(value, maxStock));
             }}
+            onWheel={(e) => e.currentTarget.blur()}
             className={field}
           />
         </div>

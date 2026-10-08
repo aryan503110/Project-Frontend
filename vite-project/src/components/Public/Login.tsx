@@ -54,13 +54,13 @@ const Login = () => {
   };
 
   const field =
-    "w-full rounded-xl border border-white/10 bg-[#1c1c1c] px-4 py-3 text-[15px] text-zinc-100 placeholder-zinc-600 outline-none transition " +
-    "hover:border-white/20 focus:border-[#d4a853]/60 focus:bg-[#191919] focus:ring-4 focus:ring-[#d4a853]/10 disabled:opacity-50";
+    "w-full rounded-xl border border-[#6b453b] bg-[#3a2420] px-4 py-3 text-[15px] text-[#fff7ed] placeholder-[#a89085] outline-none transition " +
+    "hover:border-[#8a6255] focus:border-[#d4a853] focus:bg-[#402823] focus:ring-4 focus:ring-[#d4a853]/15 disabled:opacity-50";
 
-  const label = "mb-2 block text-[13px] font-medium text-zinc-400";
+  const label = "mb-2 block text-[13px] font-medium text-[#d6c2b8]";
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#222222] px-4 py-14">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#442825] px-4 py-14">
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-0 h-105 w-180 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-3xl"
@@ -71,9 +71,9 @@ const Login = () => {
       />
 
       <div className="relative w-full max-w-105">
-        <div className="rounded-[20px] border border-white/10 bg-[#262626] p-8 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)] sm:p-10">
+        <div className="rounded-[20px] border border-[#6b453b] bg-[#2b1a17] p-8 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)] sm:p-10">
           <div className="mb-6 flex justify-center">
-            <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-[#1c1c1c] shadow-lg">
+            <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-[#6b453b] bg-[#3a2420] shadow-lg">
               <img
                 src="/logo.jpeg"
                 alt="Logo"
@@ -81,10 +81,10 @@ const Login = () => {
               />
             </div>
           </div>
-          <h1 className="text-[26px] font-semibold leading-tight tracking-tight text-zinc-50 text-center">
+          <h1 className="text-center text-[26px] font-semibold leading-tight tracking-tight text-[#fff7ed]">
             Welcome back
           </h1>
-          <p className="mt-2 text-sm leading-relaxed text-zinc-500 text-center">
+          <p className="mt-2 text-center text-sm leading-relaxed text-[#bda69b]">
             Log in to pick up where you left off.
           </p>
 
@@ -111,7 +111,7 @@ const Login = () => {
                 </label>
                 <Link
                   to="/forgot-password"
-                  className="mb-2 text-[13px] text-zinc-500 transition hover:text-[#d4a853]"
+                  className="mb-2 text-[13px] text-[#bda69b] transition hover:text-[#d4a853]"
                 >
                   Forgot password?
                 </Link>
@@ -130,18 +130,18 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="mt-7! w-full rounded-xl bg-[#d4a853] px-4 py-3 text-[15px] font-semibold text-[#221b0c] transition hover:bg-[#e0b66a] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#d4a853]/30 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-7! w-full rounded-xl bg-[#d4a853] px-4 py-3 text-[15px] font-semibold text-[#2b1a17] transition hover:bg-[#e0b66a] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#d4a853]/30 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? "Logging in…" : "Log in"}
             </button>
           </form>
         </div>
 
-        <p className="mt-6 text-center text-sm text-zinc-500">
+        <p className="mt-6 text-center text-sm text-[#bda69b]">
           Don't have an account?{" "}
           <Link
             to="/signup"
-            className="font-medium text-zinc-200 underline decoration-[#d4a853]/50 underline-offset-4 transition hover:text-[#d4a853]"
+            className="font-medium text-[#fff7ed] underline decoration-[#d4a853]/60 underline-offset-4 transition hover:text-[#d4a853]"
           >
             Sign up
           </Link>

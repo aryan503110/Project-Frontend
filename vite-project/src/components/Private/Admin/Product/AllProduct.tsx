@@ -161,6 +161,18 @@ const AllProduct = () => {
                   Category
                 </th>
 
+                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                  Cocoa %
+                </th>
+
+                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                  Weight
+                </th>
+
+                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
+                  Flavors
+                </th>
+
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
                   Actions
                 </th>
@@ -183,6 +195,18 @@ const AllProduct = () => {
 
                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
                     {item?.category?.categoryName}
+                  </td>
+
+                  <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
+                    {item?.cocoaPercentage}
+                  </td>
+
+                   <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
+                    {item?.weight} {item?.weightType}
+                  </td>
+
+                  <td className="px-4 py-4 text-center text-sm font-medium text-[#222] sm:px-6 sm:py-5">
+                   {item?.flavors?.join(", ")}
                   </td>
 
                   <td className="px-4 py-4 sm:px-6 sm:py-5">
@@ -216,7 +240,7 @@ const AllProduct = () => {
               {productList?.length === 0 && (
                 <tr>
                   <td
-                    colSpan={4}
+                    colSpan={7}
                     className="px-6 py-12 text-center text-sm text-gray-500"
                   >
                     No products found.

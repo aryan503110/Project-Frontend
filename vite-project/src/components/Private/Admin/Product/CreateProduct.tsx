@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 const CreateProduct = () => {
   const navigate = useNavigate();
@@ -9,6 +10,10 @@ const CreateProduct = () => {
   const [description, setdescription] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [categoryId, setcategoryId] = useState("");
+  const [cocoaPercentage, setcocoaPercentage] = useState<number>(0);
+  const [weight, setweight] = useState<number>(0);
+  const [weightType, setweightType] = useState("");
+  const [flavors, setflavors] = useState<string[]>([""]);
   const [categoryList, setcategoryList] = useState([]);
   const [Loading, setLoading] = useState(false);
 
@@ -39,10 +44,16 @@ const CreateProduct = () => {
     formData.append("name", name);
     formData.append("description", description);
     formData.append("categoryId", categoryId);
+    formData.append("cocoaPercentage", String(cocoaPercentage));
+    formData.append("weight", String(weight));
+    formData.append("weightType", weightType);
+    formData.append(
+      "flavors",
+      JSON.stringify(flavors?.filter((flavor) => flavor.trim() !== "")),
+    );
     if (image) {
       formData.append("image", image);
     }
-
     if (!categoryId) {
       toast.error("Please select a category");
       return;
@@ -69,6 +80,21 @@ const CreateProduct = () => {
     }
   };
 
+  const handleFlavorChange = (index: number, value: string) => {
+    const updatedFlavors = [...flavors];
+    updatedFlavors[index] = value;
+    setflavors(updatedFlavors);
+  };
+
+  const addFlavor = () => {
+    setflavors([...flavors, ""]);
+  };
+
+  const removeFlavor = (index: number) => {
+    const updatedFlavors = flavors.filter((_, i) => i !== index);
+    setflavors(updatedFlavors);
+  };
+
   const field =
     "w-full rounded-xl border border-white/10 px-4 py-3 text-[15px] text-black placeholder-zinc-600 outline-none transition " +
     "hover:border-white/20 focus:border-[#d4a853]/60 focus:ring-4 focus:ring-[#d4a853]/10 disabled:opacity-50";
@@ -85,7 +111,7 @@ const CreateProduct = () => {
       </div>
 
       {/* Form Card */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mb-2">
         <div>
           <label className={label}>Product Name</label>
           <input
@@ -111,12 +137,8 @@ const CreateProduct = () => {
             className={field}
           />
         </div>
-      </div>
-
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
           <label className={label}>Category</label>
-
           <select
             required
             value={categoryId}
@@ -136,9 +158,12 @@ const CreateProduct = () => {
             ))}
           </select>
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4 mb-2">
         <div>
           <label htmlFor="image" className={label}>
-            Change Item Image
+            Image
           </label>
 
           <input
@@ -156,6 +181,91 @@ const CreateProduct = () => {
           {image && (
             <p className="mt-2 text-xs text-zinc-500">Selected: {image.name}</p>
           )}
+        </div>
+        <div>
+          <label className={label}>Cocoa %</label>
+          <input
+            type="number"
+            placeholder="Cocoa %"
+            value={cocoaPercentage}
+            min={0}
+            max={100}
+            onChange={(e) => {
+              setcocoaPercentage(Number(e.target.value));
+            }}
+            onWheel={(e) => e.currentTarget.blur()}
+            className={field}
+          />
+        </div>
+        <div>
+          <label className={label}>Weight</label>
+          <input
+            type="number"
+            placeholder="Weight"
+            value={weight}
+            min={0}
+            onChange={(e) => {
+              setweight(Number(e.target.value));
+            }}
+            onWheel={(e) => e.currentTarget.blur()}
+            className={field}
+          />
+        </div>
+        <div>
+          <label className={label}>Weight Type</label>
+          <select
+            required
+            value={weightType}
+            onChange={(e) => {
+              setweightType(e.target.value);
+            }}
+            className={field + " bg-white"}
+          >
+            <option value="" disabled>
+              Select weight type
+            </option>
+
+            <option value="g">g</option>
+            <option value="kg">kg</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mb-2">
+        <div className="mt-4">
+          <label className={label}>Flavors</label>
+
+          <div className="space-y-3">
+            {flavors.map((flavor, index) => (
+              <div key={index} className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder={`Flavor ${index + 1}`}
+                  value={flavor}
+                  onChange={(e) => handleFlavorChange(index, e.target.value)}
+                  className={field}
+                />
+
+                {flavors.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeFlavor(index)}
+                    className="rounded-xl px-4 py-2 text-sm font-medium text-red cursor-pointer   "
+                  >
+                    <FaRegTrashCan />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={addFlavor}
+            className="mt-3 rounded-xl bg-[#222] px-4 py-2 text-sm font-medium text-white hover:bg-[#d4a853] hover:text-black"
+          >
+            Add Flavor
+          </button>
         </div>
       </div>
 

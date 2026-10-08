@@ -45,7 +45,6 @@ const CreateCategory = () => {
       </div>
 
       {/* Form Card */}
-      <div className="max-w-xl rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:p-6">
         <div>
           <label className="mb-2 block text-[13px] font-medium text-gray-600">
             Category Name
@@ -83,7 +82,6 @@ const CreateCategory = () => {
           </button>
         </div>
       </div>
-    </div>
   );
 };
 
