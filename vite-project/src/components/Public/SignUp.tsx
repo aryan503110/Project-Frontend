@@ -58,7 +58,7 @@ const SignUp = () => {
   const label = "mb-2 block text-[13px] font-medium text-zinc-400";
 
   return (
-   <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#442825] px-4 py-14">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#442825] px-4 py-14">
       {/* soft light source behind the card */}
       <div
         aria-hidden
@@ -70,7 +70,16 @@ const SignUp = () => {
       />
 
       <div className="relative w-full max-w-105">
-           <div className="rounded-[20px] border border-[#6b453b] bg-[#2b1a17] p-8 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)] sm:p-10">
+        <div className="rounded-[20px] border border-[#6b453b] bg-[#2b1a17] p-8 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)] sm:p-10">
+          <div className="mb-6 flex justify-center">
+            <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-[#6b453b] bg-[#3a2420] shadow-lg">
+              <img
+                src="/toffe-ki-tokri-logo-badge.svg"
+                alt="Logo"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
           <h1 className="text-center text-[26px] font-semibold leading-tight tracking-tight text-zinc-50">
             Sign Up
           </h1>
