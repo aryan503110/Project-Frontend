@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../../../Redux/store";
 import { MdStars } from "react-icons/md";
 
 const Explore = () => {
@@ -12,7 +10,6 @@ const Explore = () => {
   const [categoryList, setcategoryList] = useState([]);
   const [search, setsearch] = useState("");
   const [categoryId, setcategoryId] = useState("");
-  const isPremium = useSelector((state: RootState) => state.auth.isPremium);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -73,11 +70,11 @@ const Explore = () => {
       {/* Header */}
       <div className="mb-7">
         <h1 className="mt-1 text-2xl font-bold text-[#222] sm:text-3xl">
-          Explore Products
+          Discover a World of Sweet Delights
         </h1>
 
         <p className="mt-1 text-sm text-gray-500">
-          Browse our available products.
+          🍬 Browse Our Sweet Collection
         </p>
       </div>
 
@@ -118,11 +115,14 @@ const Explore = () => {
       {productList?.length > 0 ? (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {productList
-            ?.filter((item) => isPremium || item.premiumOnly === false)
+            ?.filter((item) => item.premiumOnly === false)
             ?.map((item) => (
               <div
                 key={item?._id}
-                className="group overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#d4a853]/50 hover:shadow-lg"
+                onClick={() => {
+                  navigate(`/exploreproductbyid/${item?._id}`);
+                }}
+                className="group cursor-pointer overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#d4a853]/50 hover:shadow-lg"
               >
                 {/* Image */}
                 <div className="relative h-44 overflow-hidden bg-[#f5f4f1]">
@@ -193,7 +193,7 @@ const Explore = () => {
                     onClick={() => {
                       navigate(`/exploreproductbyid/${item?._id}`);
                     }}
-                    className="mt-3 w-full rounded-lg bg-[#222] px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-[#d4a853] hover:text-black"
+                    className="mt-3 w-full rounded-lg bg-[#442825] px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-[#d4a853] hover:text-black"
                   >
                     View Details
                   </button>

@@ -56,7 +56,7 @@ const Cart = () => {
         <button
           type="button"
           onClick={() => navigate("/explore")}
-          className="mt-5 rounded-xl bg-[#222] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black"
+          className="mt-5 rounded-xl bg-[#442825] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black"
         >
           Explore Products
         </button>
@@ -215,7 +215,7 @@ const Cart = () => {
           <button
             type="button"
             onClick={handleCheckout}
-            className="mt-5 w-full rounded-xl bg-[#222] px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black"
+            className="mt-5 w-full rounded-xl bg-[#442825] px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black"
           >
             Proceed to Checkout
           </button>

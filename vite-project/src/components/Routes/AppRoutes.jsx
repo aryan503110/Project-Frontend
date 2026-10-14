@@ -27,6 +27,7 @@ import AdminAllStockRequest from "../Private/Admin/StockRequest/AdminAllStockReq
 import AllMyStockSalesperson from "../Private/SalesPerson/MyStock/AllMyStockSalesperson";
 import EditMyStockSalesperson from "../Private/SalesPerson/MyStock/EditMyStockSalesperson";
 import Explore from "../Private/Customer/Explore/Explore";
+import ExplorePremium from "../Private/Customer/Explore/ExplorePremium";
 import ExploreProductById from "../Private/Customer/Explore/ExploreProductById";
 import Cart from "../Private/Customer/Cart/Cart";
 import PaymentSuccess from "../Private/Customer/Cart/PaymentSuccess";
@@ -36,13 +37,14 @@ import BuyPremium from "../Private/Customer/BuyPremium";
 import PremiumSuccess from "../Private/Customer/PremiumSuccess";
 import UserProfileEdit from "../Private/CommonPrivate/UserProfileEdit";
 import Welcome from "../Public/Welcome";
+import Customize from "../Private/Customer/Customize/Customize";
 
 const AppRoutes = () => {
   return (
     <>
       <Routes>
         <Route path="/" element={<Welcome />}></Route>
-         <Route path="/signup" element={<SignUp />}></Route>
+        <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/forgot-password" element={<Forgotpassword />}></Route>
         <Route path="/otp-page" element={<OTPAuthenticator />}></Route>
         <Route path="/reset-password" element={<ResetPassword />}></Route>
@@ -114,10 +116,12 @@ const AppRoutes = () => {
         <Route element={<ProtectedRoute role="customer" />}>
           <Route element={<Layout />}>
             <Route path="/explore" element={<Explore />}></Route>
+            <Route path="/explorepremium" element={<ExplorePremium />}></Route>
             <Route
               path="/exploreproductbyid/:id"
               element={<ExploreProductById />}
             ></Route>
+            <Route path="/customize" element={<Customize />}></Route>
             <Route path="/cart" element={<Cart />}></Route>
             <Route path="/payment-success" element={<PaymentSuccess />}></Route>
             <Route path="/myorders" element={<MyOrders />}></Route>

@@ -79,10 +79,10 @@ const MyOrders = () => {
       <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-[#222] sm:text-3xl">
-            My Orders
+            Orders
           </h1>
 
-          <p className="mt-1 text-sm text-gray-500">All Orders.</p>
+          <p className="mt-1 text-sm text-gray-500">See all your Orders here.</p>
         </div>
       </div>
 
@@ -118,7 +118,7 @@ const MyOrders = () => {
       <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[480px] text-left">
-            <thead className="bg-[#222] text-white">
+            <thead className="bg-[#442825] text-white">
               <tr>
                 <th className="px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4">
                   Product Name
@@ -181,7 +181,7 @@ const MyOrders = () => {
               {myOrders?.length === 0 && (
                 <tr>
                   <td
-                    colSpan={4}
+                    colSpan={5}
                     className="px-6 py-12 text-center text-sm text-gray-500"
                   >
                     No orders found.

@@ -95,14 +95,14 @@ const ExploreProductById = () => {
       </button>
 
       {/* Product */}
-      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-2xl">
         <div className="grid lg:grid-cols-2">
           {/* Image */}
-          <div className="flex min-h-[420px] items-center justify-center bg-[#f7f6f3] p-8 lg:min-h-[520px]">
+          <div className="flex min-h-105 items-center justify-center p-8 lg:min-h-130">
             <img
               src={productInfo?.image}
               alt={productInfo?.name}
-              className="h-full max-h-[460px] w-full object-contain"
+              className="h-full max-h-115 w-full object-cover rounded-2xl"
             />
           </div>
 
@@ -185,7 +185,7 @@ const ExploreProductById = () => {
                     −
                   </button>
 
-                  <span className="min-w-[40px] text-center text-sm font-semibold text-[#222]">
+                  <span className="min-w-10 text-center text-sm font-semibold text-[#222]">
                     {quantity}
                   </span>
 
@@ -219,10 +219,10 @@ const ExploreProductById = () => {
 
                     toast.success("Product added to cart");
                   }}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#222] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#442825] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black"
                 >
                   <FiShoppingCart size={17} />
-                  Add to Cart
+                  Add
                 </button>
               </div>
             </div>

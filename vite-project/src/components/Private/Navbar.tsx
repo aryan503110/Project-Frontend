@@ -271,6 +271,26 @@ const Navbar = () => {
                 Explore
               </Link>
 
+              {isPremium && (
+                <>
+                  <Link
+                    to="/explorepremium"
+                    onClick={closeDrawer}
+                    className={linkClass("/explorepremium")}
+                  >
+                    Explore Premium
+                  </Link>
+
+                  <Link
+                    to="/customize"
+                    onClick={closeDrawer}
+                    className={linkClass("/customize")}
+                  >
+                    Customize
+                  </Link>
+                </>
+              )}
+
               <Link
                 to="/cart"
                 onClick={closeDrawer}
