@@ -52,13 +52,13 @@ const SignUp = () => {
   };
 
   const field =
-    "w-full rounded-xl border border-white/10 bg-[#1c1c1c] px-4 py-3 text-[15px] text-zinc-100 placeholder-zinc-600 outline-none transition " +
-    "hover:border-white/20 focus:border-[#d4a853]/60 focus:bg-[#191919] focus:ring-4 focus:ring-[#d4a853]/10 disabled:opacity-50";
+    "w-full rounded-xl border border-[#6b453b] bg-[#3a2420] px-4 py-3 text-[15px] text-[#fff7ed] placeholder-[#a89085] outline-none transition " +
+    "hover:border-[#8a6255] focus:border-[#d4a853] focus:bg-[#402823] focus:ring-4 focus:ring-[#d4a853]/15 disabled:opacity-50";
 
   const label = "mb-2 block text-[13px] font-medium text-zinc-400";
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#222222] px-4 py-14">
+   <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#442825] px-4 py-14">
       {/* soft light source behind the card */}
       <div
         aria-hidden
@@ -70,13 +70,10 @@ const SignUp = () => {
       />
 
       <div className="relative w-full max-w-105">
-        <div className="rounded-[20px] border border-white/10 bg-[#262626] p-8 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)] sm:p-10">
-          <h1 className="text-[26px] font-semibold leading-tight tracking-tight text-zinc-50">
-            Create your account
+           <div className="rounded-[20px] border border-[#6b453b] bg-[#2b1a17] p-8 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)] sm:p-10">
+          <h1 className="text-center text-[26px] font-semibold leading-tight tracking-tight text-zinc-50">
+            Sign Up
           </h1>
-          <p className="mt-2 text-sm leading-relaxed text-zinc-500">
-            Pick the role you work in and you're in.
-          </p>
 
           <form onSubmit={handleSignUp} className="mt-8 space-y-5">
             <div>

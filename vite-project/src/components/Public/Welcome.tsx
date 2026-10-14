@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Welcome = () => {
   return (
@@ -23,7 +24,7 @@ const Welcome = () => {
             {/* Top Left */}
             <div className="min-h-0 overflow-hidden rounded-[20px] sm:rounded-[28px]">
               <img
-                src="/choco1.jpeg"
+                src="/01-pure-truffles-fork.svg"
                 alt="Chocolate"
                 className="h-full w-full object-cover"
               />
@@ -32,16 +33,26 @@ const Welcome = () => {
             {/* Top Right */}
             <div className="grid min-h-0 grid-rows-2 gap-3 sm:gap-4">
               <div className="min-h-0 overflow-hidden rounded-[20px] sm:rounded-[28px]">
-                <img
-                  src="/choco.jpeg"
-                  alt="Chocolate"
-                  className="h-full w-full object-cover"
-                />
+                <div className="flex h-full min-h-0 flex-col items-center justify-center gap-2 rounded-[20px] bg-[#5a2d1c] p-2 sm:gap-6 sm:rounded-[28px] sm:p-8">
+                  <Link
+                    to="/signup"
+                    className="w-full rounded-lg border border-[#4b2417] bg-[#fff0d2] px-1.5 py-1.5 text-center text-[10px] font-bold leading-tight text-[#4b2417] shadow-[2px_2px_0px_#3b1d12] transition hover:bg-white sm:rounded-2xl sm:border-2 sm:px-5 sm:py-4 sm:text-lg sm:shadow-[4px_4px_0px_#3b1d12]"
+                  >
+                    🍫 Sign Up
+                  </Link>
+
+                  <Link
+                    to="/login"
+                    className="w-full rounded-lg border border-[#fff0d2] bg-[#7b3f22] px-1.5 py-1.5 text-center text-[10px] font-bold leading-tight text-[#fff0d2] shadow-[2px_2px_0px_#3b1d12] transition hover:bg-[#8f4b29] sm:rounded-2xl sm:border-2 sm:px-5 sm:py-4 sm:text-lg sm:shadow-[4px_4px_0px_#3b1d12]"
+                  >
+                    🍬 Login
+                  </Link>
+                </div>
               </div>
 
               <div className="min-h-0 overflow-hidden rounded-[20px] sm:rounded-[28px]">
                 <img
-                  src="/choco.jpeg"
+                  src="/L4-cookies-and-milk-landscape.svg"
                   alt="Chocolate"
                   className="h-full w-full object-cover"
                 />
@@ -52,7 +63,7 @@ const Welcome = () => {
           {/* LEFT BOTTOM */}
           <div className="min-h-0 overflow-hidden rounded-[20px] sm:rounded-[28px]">
             <img
-              src="/choco.jpeg"
+              src="/L1-chocolate-cake-landscape.svg"
               alt="Chocolate"
               className="h-full w-full object-cover"
             />
@@ -60,18 +71,18 @@ const Welcome = () => {
         </div>
 
         {/* RIGHT SECTION */}
-        <div className="grid min-h-0 grid-rows-2 gap-3 sm:gap-4">
+        <div className="grid min-h-0 grid-rows-1 gap-3 sm:grid-rows-2 sm:gap-4">
           <div className="min-h-0 overflow-hidden rounded-[20px] sm:rounded-[28px]">
             <img
-              src="/choco.jpeg"
+              src="/chocolate_bar_circular_text_poster.png"
               alt="Chocolate"
               className="h-full w-full object-cover"
             />
           </div>
 
-          <div className="min-h-0 overflow-hidden rounded-[20px] sm:rounded-[28px]">
+          <div className="hidden min-h-0 overflow-hidden rounded-[20px] sm:block sm:rounded-[28px]">
             <img
-              src="/choco.jpeg"
+              src="/L2-ek-tokri-landscape.svg"
               alt="Chocolate"
               className="h-full w-full object-cover"
             />

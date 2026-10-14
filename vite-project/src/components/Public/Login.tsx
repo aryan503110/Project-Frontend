@@ -75,7 +75,7 @@ const Login = () => {
           <div className="mb-6 flex justify-center">
             <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-[#6b453b] bg-[#3a2420] shadow-lg">
               <img
-                src="/logo.jpeg"
+                src="/toffe-ki-tokri-logo-badge.svg"
                 alt="Logo"
                 className="h-full w-full object-cover"
               />
@@ -84,9 +84,6 @@ const Login = () => {
           <h1 className="text-center text-[26px] font-semibold leading-tight tracking-tight text-[#fff7ed]">
             Welcome back
           </h1>
-          <p className="mt-2 text-center text-sm leading-relaxed text-[#bda69b]">
-            Log in to pick up where you left off.
-          </p>
 
           <form onSubmit={handleLogin} className="mt-8 space-y-5">
             <div>
