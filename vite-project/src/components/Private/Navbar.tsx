@@ -62,7 +62,9 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="shrink-0 bg-[#442825] text-white md:min-h-screen md:w-60">
+    <nav
+      className="shrink-0 bg-[#442825] text-white md:min-h-screen md:w-60"
+    >
       <div className="flex items-center justify-between bg-[#442825] p-4 md:hidden">
         <div className="flex items-center gap-3">
           {image ? (

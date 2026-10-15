@@ -7,6 +7,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../../Redux/Slice/cartSlice";
 import type { RootState } from "../../../Redux/store";
 
+/*
+  Minimal cartoon theme (same tokens as Explore)
+  Chocolate #4A2418 · Bubblegum #FF8FB8 · Butter #FFD166 · Cream #FFF8EC
+*/
+
+const FontStyle = () => (
+  <style>{`
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
+    .explore-candy { font-family: 'Fredoka', system-ui, sans-serif; }
+  `}</style>
+);
+
 const ExploreProductById = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -54,25 +66,31 @@ const ExploreProductById = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-[#d4a853]" />
+      <div className="explore-candy flex min-h-[60vh] items-center justify-center">
+        <FontStyle />
+        <div className="h-9 w-9 animate-spin rounded-full border-[3px] border-[#4A2418]/20 border-t-[#FF8FB8]" />
       </div>
     );
   }
 
   if (!product) {
     return (
-      <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
-        <h2 className="text-xl font-bold text-[#222]">Product not found</h2>
+      <div className="explore-candy flex min-h-[60vh] flex-col items-center justify-center text-center">
+        <FontStyle />
+        <div className="text-4xl">🍪</div>
 
-        <p className="mt-1 text-sm text-gray-500">
+        <h2 className="mt-2 text-xl font-bold text-[#4A2418]">
+          Product not found
+        </h2>
+
+        <p className="mt-1 text-sm text-[#4A2418]/70">
           This product may no longer be available.
         </p>
 
         <button
           type="button"
           onClick={() => navigate(-1)}
-          className="mt-5 rounded-lg bg-[#222] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black"
+          className="mt-5 rounded-full border-2 border-[#4A2418] bg-[#4A2418] px-6 py-2.5 text-sm font-semibold text-[#FFF8EC] transition hover:bg-[#FFD166] hover:text-[#4A2418] active:translate-y-0.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF8FB8]/60"
         >
           Go Back
         </button>
@@ -83,148 +101,129 @@ const ExploreProductById = () => {
   const productInfo = product?.product;
 
   return (
-    <div className="w-full">
+    <div className="explore-candy w-full">
+      <FontStyle />
+
       {/* Back */}
       <button
         type="button"
         onClick={() => navigate(-1)}
-        className="mb-6 flex items-center gap-2 text-sm font-medium text-gray-500 transition hover:text-[#b18a3e]"
+        className="mb-6 flex items-center gap-2 rounded-full text-sm font-medium text-[#4A2418]/70 transition hover:text-[#4A2418] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF8FB8]/50"
       >
         <FiArrowLeft size={16} />
         Back to Products
       </button>
 
       {/* Product */}
-      <div className="overflow-hidden rounded-2xl">
-        <div className="grid lg:grid-cols-2">
-          {/* Image */}
-          <div className="flex min-h-105 items-center justify-center p-8 lg:min-h-130">
-            <img
-              src={productInfo?.image}
-              alt={productInfo?.name}
-              className="h-full max-h-115 w-full object-cover rounded-2xl"
-            />
+      <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
+        {/* Image */}
+        <div className="overflow-hidden rounded-3xl border-2 border-[#4A2418] bg-[#FFE3EE] shadow-[5px_5px_0_#4A2418]">
+          <img
+            src={productInfo?.image}
+            alt={productInfo?.name}
+            className="h-full max-h-115 min-h-72 w-full object-cover"
+          />
+        </div>
+
+        {/* Details */}
+        <div className="flex flex-col">
+          {/* Availability */}
+          <div>
+            <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[#4A2418] bg-[#FFD166] px-3 py-1 text-xs font-semibold text-[#4A2418]">
+              <FiCheck size={13} />
+              {product?.stock} available
+            </span>
           </div>
 
-          {/* Details */}
-          <div className="flex flex-col p-7 sm:p-10">
-            {/* Category / availability */}
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#b18a3e]">
-                Product
-              </span>
+          {/* Name */}
+          <h1 className="mt-4 text-3xl font-bold leading-tight text-[#4A2418] sm:text-4xl">
+            {productInfo?.name}
+          </h1>
 
-              <span className="flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1.5 text-[11px] font-semibold text-green-700">
-                <FiCheck size={13} />
-                {product?.stock} Available
-              </span>
+          {/* Description */}
+          <p className="mt-3 max-w-xl text-sm leading-6 text-[#4A2418]/70">
+            {productInfo?.description}
+          </p>
+
+          {/* Prices */}
+          <div className="mt-6 grid grid-cols-2 gap-3 border-t-2 border-dashed border-[#4A2418]/25 pt-6">
+            {/* Regular */}
+            <div className="rounded-2xl border-2 border-[#4A2418] bg-[#FFF8EC] px-4 py-3">
+              <p className="text-xs text-[#4A2418]/60">Regular price</p>
+
+              <p className="mt-1 text-xl font-bold text-[#4A2418]">
+                ₹{product?.normalSellingPrice?.toLocaleString("en-IN")}
+              </p>
             </div>
 
-            {/* Name */}
-            <h1 className="mt-4 text-3xl font-bold leading-tight text-[#222] sm:text-4xl">
-              {productInfo?.name}
-            </h1>
+            {/* Subscription */}
+            <div className="rounded-2xl border-2 border-[#4A2418] bg-[#FF8FB8] px-4 py-3 shadow-[3px_3px_0_#4A2418]">
+              <p className="text-xs text-[#4A2418]/80">Subscription</p>
 
-            {/* Description */}
-            <p className="mt-4 max-w-xl text-sm leading-6 text-gray-500">
-              {productInfo?.description}
+              <p className="mt-1 text-xl font-bold text-[#4A2418]">
+                ₹{product?.subscriptionSellingPrice?.toLocaleString("en-IN")}
+              </p>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="mt-6">
+            <p className="mb-2 text-xs font-medium text-[#4A2418]/70">
+              Quantity
             </p>
 
-            {/* Divider */}
-            <div className="my-7 h-px bg-gray-100" />
+            <div className="flex items-center gap-3">
+              <div className="flex items-center rounded-full border-2 border-[#4A2418] bg-[#FFF8EC]">
+                <button
+                  type="button"
+                  onClick={decreaseQuantity}
+                  disabled={quantity === 1}
+                  aria-label="Decrease quantity"
+                  className="rounded-l-full px-4 py-2 text-lg text-[#4A2418] transition hover:bg-[#FFD166] disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent"
+                >
+                  −
+                </button>
 
-            {/* Prices */}
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-gray-400">
-                Pricing
-              </p>
-
-              <div className="mt-3 grid grid-cols-2 gap-3">
-                {/* Regular */}
-                <div className="rounded-xl bg-gray-50 px-4 py-3">
-                  <p className="text-xs text-gray-400">Regular Price</p>
-
-                  <p className="mt-1 text-xl font-bold text-[#222]">
-                    ₹{product?.normalSellingPrice?.toLocaleString("en-IN")}
-                  </p>
-                </div>
-
-                {/* Subscription */}
-                <div className="rounded-xl bg-[#faf7ef] px-4 py-3">
-                  <p className="text-xs text-[#b18a3e]">Subscription</p>
-
-                  <p className="mt-1 text-xl font-bold text-[#b18a3e]">
-                    ₹
-                    {product?.subscriptionSellingPrice?.toLocaleString("en-IN")}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Stock */}
-            <div className="mt-6 flex items-center justify-between rounded-xl border border-gray-100 px-4 py-3">
-              <span className="text-sm text-gray-500">Available Stock</span>
-
-              <span className="text-sm font-bold text-[#222]">
-                {product?.stock} units
-              </span>
-            </div>
-
-            {/* CTA */}
-            <div className="mt-6">
-              <p className="mb-2 text-xs font-medium text-gray-500">Quantity</p>
-
-              <div className="flex items-center gap-3">
-                <div className="flex items-center rounded-xl border border-gray-200">
-                  <button
-                    type="button"
-                    onClick={decreaseQuantity}
-                    disabled={quantity === 1}
-                    className="px-4 py-2.5 text-lg text-gray-500 transition hover:text-[#222] disabled:cursor-not-allowed disabled:opacity-30"
-                  >
-                    −
-                  </button>
-
-                  <span className="min-w-10 text-center text-sm font-semibold text-[#222]">
-                    {quantity}
-                  </span>
-
-                  <button
-                    type="button"
-                    onClick={increaseQuantity}
-                    disabled={quantity >= product?.stock}
-                    className="px-4 py-2.5 text-lg text-gray-500 transition hover:text-[#222] disabled:cursor-not-allowed disabled:opacity-30"
-                  >
-                    +
-                  </button>
-                </div>
+                <span className="min-w-10 text-center text-sm font-semibold text-[#4A2418]">
+                  {quantity}
+                </span>
 
                 <button
                   type="button"
-                  onClick={() => {
-                    dispatch(
-                      addToCart({
-                        salespersonstockid: product?._id,
-                        salespersonid: product?.salesperson?._id,
-                        productid: product?.product?._id,
-                        name: product?.product?.name,
-                        image: product?.product?.image,
-                        quantity: quantity,
-                        sellingprice: isPremium
-                          ? product?.subscriptionSellingPrice
-                          : product?.normalSellingPrice,
-                        availableStock: product?.stock,
-                      }),
-                    );
-
-                    toast.success("Product added to cart");
-                  }}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#442825] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black"
+                  onClick={increaseQuantity}
+                  disabled={quantity >= product?.stock}
+                  aria-label="Increase quantity"
+                  className="rounded-r-full px-4 py-2 text-lg text-[#4A2418] transition hover:bg-[#FFD166] disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent"
                 >
-                  <FiShoppingCart size={17} />
-                  Add
+                  +
                 </button>
               </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  dispatch(
+                    addToCart({
+                      salespersonstockid: product?._id,
+                      salespersonid: product?.salesperson?._id,
+                      productid: product?.product?._id,
+                      name: product?.product?.name,
+                      image: product?.product?.image,
+                      quantity: quantity,
+                      sellingprice: isPremium
+                        ? product?.subscriptionSellingPrice
+                        : product?.normalSellingPrice,
+                      availableStock: product?.stock,
+                    }),
+                  );
+
+                  toast.success("Product added to cart");
+                }}
+                className="flex flex-1 items-center justify-center gap-2 rounded-full border-2 border-[#4A2418] bg-[#4A2418] px-5 py-2.5 text-sm font-semibold text-[#FFF8EC] transition hover:bg-[#FFD166] hover:text-[#4A2418] active:translate-y-0.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF8FB8]/60"
+              >
+                <FiShoppingCart size={17} />
+                Add to cart
+              </button>
             </div>
           </div>
         </div>

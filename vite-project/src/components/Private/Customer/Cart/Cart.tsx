@@ -11,6 +11,18 @@ import {
 } from "../../../Redux/Slice/cartSlice";
 import axios from "axios";
 
+/*
+  Minimal cartoon theme (same tokens as Explore)
+  Chocolate #4A2418 · Bubblegum #FF8FB8 · Butter #FFD166 · Cream #FFF8EC
+*/
+
+const FontStyle = () => (
+  <style>{`
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
+    .explore-candy { font-family: 'Fredoka', system-ui, sans-serif; }
+  `}</style>
+);
+
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,23 +52,25 @@ const Cart = () => {
 
   if (cartItems.length === 0) {
     return (
-      <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#faf7ef] text-[#b18a3e]">
-          <FiShoppingBag size={28} />
+      <div className="explore-candy flex min-h-[60vh] flex-col items-center justify-center text-center">
+        <FontStyle />
+
+        <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-[#4A2418] bg-[#FFD166] text-[#4A2418] shadow-[3px_3px_0_#4A2418]">
+          <FiShoppingBag size={26} />
         </div>
 
-        <h2 className="mt-5 text-xl font-bold text-[#222]">
+        <h2 className="mt-5 text-xl font-bold text-[#4A2418]">
           Your cart is empty
         </h2>
 
-        <p className="mt-1 text-sm text-gray-500">
-          Add some products to your cart and they will appear here.
+        <p className="mt-1 text-sm text-[#4A2418]/70">
+          Add some sweets and they will show up here.
         </p>
 
         <button
           type="button"
           onClick={() => navigate("/explore")}
-          className="mt-5 rounded-xl bg-[#442825] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black"
+          className="mt-5 rounded-full border-2 border-[#4A2418] bg-[#4A2418] px-6 py-2.5 text-sm font-semibold text-[#FFF8EC] transition hover:bg-[#FFD166] hover:text-[#4A2418] active:translate-y-0.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF8FB8]/60"
         >
           Explore Products
         </button>
@@ -65,19 +79,17 @@ const Cart = () => {
   }
 
   return (
-    <div className="w-full">
-      {/* Header */}
-      <div className="mb-7 flex items-end justify-between">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#b18a3e]">
-            Shopping
-          </p>
+    <div className="explore-candy w-full">
+      <FontStyle />
 
-          <h1 className="mt-1 text-2xl font-bold text-[#222] sm:text-3xl">
+      {/* Header */}
+      <div className="mb-8 flex items-end justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-[#4A2418] sm:text-4xl">
             Your Cart
           </h1>
 
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-base text-[#4A2418]/70">
             {cartItems.length} {cartItems.length === 1 ? "item" : "items"} in
             your cart
           </p>
@@ -86,44 +98,45 @@ const Cart = () => {
         <button
           type="button"
           onClick={() => dispatch(clearCart())}
-          className="text-xs font-medium text-gray-400 transition hover:text-red-500"
+          className="rounded-full text-sm font-medium text-[#4A2418]/60 underline-offset-4 transition hover:text-[#4A2418] hover:underline focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF8FB8]/50"
         >
-          Clear Cart
+          Clear cart
         </button>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
+      <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
         {/* Cart Items */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           {cartItems?.map((item) => (
             <div
               key={item.salespersonstockid}
-              className="flex gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
+              className="flex gap-4 rounded-3xl border-2 border-[#4A2418] bg-[#FFF8EC] p-3 shadow-[4px_4px_0_#4A2418]"
             >
               {/* Image */}
-              <div className="h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-[#f7f6f3]">
+              <div className="h-24 w-24 shrink-0 overflow-hidden rounded-2xl border-2 border-[#4A2418] bg-[#FFE3EE]">
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="h-full w-full object-contain"
+                  className="h-full w-full object-cover"
                 />
               </div>
 
               {/* Details */}
-              <div className="flex min-w-0 flex-1 flex-col justify-between">
+              <div className="flex min-w-0 flex-1 flex-col justify-between py-0.5 pr-1">
                 <div className="flex justify-between gap-3">
-                  <div>
-                    <h2 className="truncate text-sm font-bold text-[#222]">
+                  <div className="min-w-0">
+                    <h2 className="truncate text-base font-bold text-[#4A2418]">
                       {item.name}
                     </h2>
 
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p className="mt-0.5 text-sm text-[#4A2418]/70">
                       ₹{item.sellingprice.toLocaleString("en-IN")}
                     </p>
                   </div>
 
                   <button
                     type="button"
+                    aria-label={`Remove ${item.name}`}
                     onClick={() =>
                       dispatch(
                         removeFromCart({
@@ -131,7 +144,7 @@ const Cart = () => {
                         }),
                       )
                     }
-                    className="text-gray-400 transition hover:text-red-500"
+                    className="h-fit rounded-full p-1.5 text-[#4A2418]/60 transition hover:bg-[#FF8FB8] hover:text-[#4A2418] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF8FB8]/50"
                   >
                     <FiTrash2 size={16} />
                   </button>
@@ -139,9 +152,10 @@ const Cart = () => {
 
                 <div className="mt-3 flex items-center justify-between">
                   {/* Quantity */}
-                  <div className="flex items-center rounded-lg border border-gray-200">
+                  <div className="flex items-center rounded-full border-2 border-[#4A2418] bg-white">
                     <button
                       type="button"
+                      aria-label="Decrease quantity"
                       onClick={() =>
                         dispatch(
                           decreaseQuantity({
@@ -149,17 +163,18 @@ const Cart = () => {
                           }),
                         )
                       }
-                      className="px-2.5 py-1.5 text-gray-500 transition hover:text-[#222]"
+                      className="rounded-l-full px-3 py-1.5 text-[#4A2418] transition hover:bg-[#FFD166]"
                     >
                       <FiMinus size={13} />
                     </button>
 
-                    <span className="min-w-[30px] text-center text-xs font-semibold text-[#222]">
+                    <span className="min-w-8 text-center text-sm font-semibold text-[#4A2418]">
                       {item.quantity}
                     </span>
 
                     <button
                       type="button"
+                      aria-label="Increase quantity"
                       onClick={() =>
                         dispatch(
                           increaseQuantity({
@@ -167,14 +182,14 @@ const Cart = () => {
                           }),
                         )
                       }
-                      className="px-2.5 py-1.5 text-gray-500 transition hover:text-[#222]"
+                      className="rounded-r-full px-3 py-1.5 text-[#4A2418] transition hover:bg-[#FFD166]"
                     >
                       <FiPlus size={13} />
                     </button>
                   </div>
 
                   {/* Item total */}
-                  <p className="text-sm font-bold text-[#222]">
+                  <p className="text-base font-bold text-[#4A2418]">
                     ₹
                     {(item.sellingprice * item.quantity).toLocaleString(
                       "en-IN",
@@ -187,27 +202,27 @@ const Cart = () => {
         </div>
 
         {/* Summary */}
-        <div className="h-fit rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <h2 className="text-base font-bold text-[#222]">Order Summary</h2>
+        <div className="h-fit rounded-3xl border-2 border-[#4A2418] bg-[#FFF8EC] p-5 shadow-[5px_5px_0_#4A2418]">
+          <h2 className="text-lg font-bold text-[#4A2418]">Order Summary</h2>
 
-          <div className="my-4 h-px bg-gray-100" />
+          <div className="my-4 border-t-2 border-dashed border-[#4A2418]/25" />
 
-          <div className="flex items-center justify-between text-sm text-gray-500">
+          <div className="flex items-center justify-between text-sm text-[#4A2418]/70">
             <span>Items</span>
             <span>{cartItems.length}</span>
           </div>
 
-          <div className="mt-3 flex items-center justify-between text-sm text-gray-500">
+          <div className="mt-3 flex items-center justify-between text-sm text-[#4A2418]/70">
             <span>Subtotal</span>
             <span>₹{totalAmount.toLocaleString("en-IN")}</span>
           </div>
 
-          <div className="my-4 h-px bg-gray-100" />
+          <div className="my-4 border-t-2 border-dashed border-[#4A2418]/25" />
 
           <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold text-[#222]">Total</span>
+            <span className="text-sm font-semibold text-[#4A2418]">Total</span>
 
-            <span className="text-xl font-bold text-[#b18a3e]">
+            <span className="rounded-full border-2 border-[#4A2418] bg-[#FF8FB8] px-3 py-0.5 text-xl font-bold text-[#4A2418]">
               ₹{totalAmount.toLocaleString("en-IN")}
             </span>
           </div>
@@ -215,7 +230,7 @@ const Cart = () => {
           <button
             type="button"
             onClick={handleCheckout}
-            className="mt-5 w-full rounded-xl bg-[#442825] px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#d4a853] hover:text-black"
+            className="mt-5 w-full rounded-full border-2 border-[#4A2418] bg-[#4A2418] px-5 py-3 text-sm font-semibold text-[#FFF8EC] transition hover:bg-[#FFD166] hover:text-[#4A2418] active:translate-y-0.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF8FB8]/60"
           >
             Proceed to Checkout
           </button>
