@@ -6,11 +6,6 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../../../Redux/store";
 import { FaFileDownload } from "react-icons/fa";
 
-/*
-  Minimal cartoon theme (same tokens as Explore)
-  Chocolate #4A2418 · Bubblegum #FF8FB8 · Butter #FFD166 · Cream #FFF8EC
-*/
-
 // One soft color per order status
 const STATUS_STYLES: Record<string, string> = {
   ordered: "bg-[#FFD166]",
@@ -21,8 +16,6 @@ const STATUS_STYLES: Record<string, string> = {
 const Customize = () => {
   const navigate = useNavigate();
   const [myOrders, setmyOrders] = useState<any[]>([]);
-  const [search, setsearch] = useState("");
-  const [status, setstatus] = useState("");
 
   const userId = useSelector((state: RootState) => state.auth.userId);
 
@@ -31,10 +24,10 @@ const Customize = () => {
       const getMyStock = async () => {
         try {
           const res = await axios.get(
-            `${import.meta.env.VITE_API_URL}/customer/myorder/${userId}?search=${search}&status=${status}`,
+            `${import.meta.env.VITE_API_URL}/customer/getbaskets/${userId}`,
           );
-          setmyOrders(res?.data?.order);
-          console.log("res", res.data.order);
+          setmyOrders(res?.data?.baskets);
+          console.log("res", res.data.baskets);
         } catch (err) {
           if (axios.isAxiosError(err)) {
             toast.error(err.response?.data?.message || "Something went wrong");
@@ -50,36 +43,7 @@ const Customize = () => {
     return () => {
       clearTimeout(timer);
     };
-  }, [search, status]);
-
-  const downloadInvoice = async (orderId: string) => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/invoice/${orderId}`,
-        {
-          withCredentials: true,
-          responseType: "blob",
-        },
-      );
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-
-      const link = document.createElement("a");
-
-      link.href = url;
-      link.download = `invoice-${orderId}.pdf`;
-
-      document.body.appendChild(link);
-
-      link.click();
-
-      link.remove();
-
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  }, []);
 
   const th = "px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4";
   const td =
@@ -116,8 +80,8 @@ const Customize = () => {
         />
         <button
           type="button"
-          onClick={()=>{
-            navigate("/createbasket")
+          onClick={() => {
+            navigate("/createbasket");
           }}
           className="rounded-full border-2 border-[#4A2418] bg-[#4A2418] px-5 py-2.5 text-sm font-semibold text-[#FFF8EC] transition hover:bg-[#FFD166] hover:text-[#4A2418] active:translate-y-0.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF8FB8]/60 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-[#4A2418] disabled:hover:text-[#FFF8EC]"
         >
@@ -128,14 +92,13 @@ const Customize = () => {
       {/* Table */}
       <div className="overflow-hidden rounded-3xl border-2 border-[#4A2418] bg-[#FFF8EC] shadow-[5px_5px_0_#4A2418]">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-120 text-left">
+          <table className="w-full min-w-[480px] text-left">
             <thead className="bg-[#4A2418] text-[#FFF8EC]">
               <tr>
-                <th className={th}>Product Name</th>
-                <th className={th}>Salesperson</th>
-                <th className={th}>Amount Paid</th>
+                <th className={th}>Basket Items</th>
+                <th className={th}>Gift</th>
+                <th className={th}>Gift Message</th>
                 <th className={th}>Status</th>
-                <th className={th}>Invoice</th>
               </tr>
             </thead>
 
@@ -145,12 +108,17 @@ const Customize = () => {
                   key={item?._id}
                   className="border-b-2 border-dashed border-[#4A2418]/20 transition last:border-b-0 hover:bg-[#FFF0C9]"
                 >
-                  <td className={td}>{item?.product?.name}</td>
+                  <td className={td}>
+                    {item?.items
+                      ?.map((abc) => abc?.salespersonStock?.product?.name)
+                      .filter(Boolean)
+                      .join(", ")}
+                  </td>
 
-                  <td className={td}>{item?.salesperson?.name}</td>
+                  <td className={td}>{item?.isGift ? "Yes" : "No"}</td>
 
                   <td className={td}>
-                    ₹{item?.totalAmount?.toLocaleString("en-IN")}
+                    {item?.giftMessage ? item?.giftMessage : "-"}
                   </td>
 
                   <td className="px-4 py-3 text-center sm:px-6 sm:py-4">
@@ -159,19 +127,8 @@ const Customize = () => {
                         STATUS_STYLES[item?.orderStatus] ?? "bg-white"
                       }`}
                     >
-                      {item?.orderStatus}
+                      {item?.status}
                     </span>
-                  </td>
-
-                  <td className="px-4 py-3 text-center sm:px-6 sm:py-4">
-                    <button
-                      type="button"
-                      aria-label="Download invoice"
-                      onClick={() => downloadInvoice(item?._id)}
-                      className="rounded-full border-2 border-transparent p-2 text-[#4A2418] transition hover:border-[#4A2418] hover:bg-[#FFD166] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF8FB8]/50"
-                    >
-                      <FaFileDownload size={16} />
-                    </button>
                   </td>
                 </tr>
               ))}

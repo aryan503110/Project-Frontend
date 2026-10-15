@@ -40,7 +40,6 @@ import Welcome from "../Public/Welcome";
 import Customize from "../Private/Customer/Customize/Customize";
 import AddCustomize from "../Private/Customer/Customize/AddCustomize";
 import BasketSuccess from "../Private/Customer/BasketSuccess";
-import BasketOrders from "../Private/Customer/MyOrders/BasketOrders";
 
 const AppRoutes = () => {
   return (
@@ -130,7 +129,6 @@ const AppRoutes = () => {
             <Route path="/cart" element={<Cart />}></Route>
             <Route path="/payment-success" element={<PaymentSuccess />}></Route>
             <Route path="/myorders" element={<MyOrders />}></Route>
-            <Route path="/basket-orders" element={<BasketOrders />}></Route>
             <Route path="/buy-premium" element={<BuyPremium />}></Route>
             <Route path="/premium-success" element={<PremiumSuccess />} />
           </Route>
