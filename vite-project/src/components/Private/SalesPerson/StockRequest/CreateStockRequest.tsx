@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../Redux/store";
 axios.defaults.withCredentials = true;
+
 const CreateStockRequest = () => {
   const navigate = useNavigate();
   const userId = useSelector((state: RootState) => state.auth.userId);

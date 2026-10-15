@@ -2,24 +2,39 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { MdStars } from "react-icons/md";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../../Redux/store";
+import { FaFileDownload } from "react-icons/fa";
+
+/*
+  Minimal cartoon theme (same tokens as Explore)
+  Chocolate #4A2418 · Bubblegum #FF8FB8 · Butter #FFD166 · Cream #FFF8EC
+*/
+
+// One soft color per order status
+const STATUS_STYLES: Record<string, string> = {
+  ordered: "bg-[#FFD166]",
+  dispatched: "bg-[#FF8FB8]",
+  delivered: "bg-[#BFEFD9]",
+};
 
 const Customize = () => {
   const navigate = useNavigate();
-  const [productList, setproductList] = useState([]);
-  const [categoryList, setcategoryList] = useState([]);
+  const [myOrders, setmyOrders] = useState<any[]>([]);
   const [search, setsearch] = useState("");
-  const [categoryId, setcategoryId] = useState("");
+  const [status, setstatus] = useState("");
+
+  const userId = useSelector((state: RootState) => state.auth.userId);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const getProducts = async () => {
+      const getMyStock = async () => {
         try {
           const res = await axios.get(
-            `${import.meta.env.VITE_API_URL}/customer/availablecustomerproducts?search=${search}&category=${categoryId}`,
+            `${import.meta.env.VITE_API_URL}/customer/myorder/${userId}?search=${search}&status=${status}`,
           );
-
-          setproductList(res?.data?.stock || []);
+          setmyOrders(res?.data?.order);
+          console.log("res", res.data.order);
         } catch (err) {
           if (axios.isAxiosError(err)) {
             toast.error(err.response?.data?.message || "Something went wrong");
@@ -30,44 +45,45 @@ const Customize = () => {
           console.log(err);
         }
       };
-
-      getProducts();
+      getMyStock();
     }, 1000);
-
     return () => {
       clearTimeout(timer);
     };
-  }, [search, categoryId]);
+  }, [search, status]);
 
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/admin/allcategories`,
-        );
-        setcategoryList(res?.data?.categories);
-      } catch (err) {
-        if (axios.isAxiosError(err)) {
-          toast.error(err.response?.data?.message || "Something went wrong");
-        } else {
-          toast.error("Something went wrong");
-        }
+  const downloadInvoice = async (orderId: string) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/invoice/${orderId}`,
+        {
+          withCredentials: true,
+          responseType: "blob",
+        },
+      );
 
-        console.log(err);
-      }
-    };
+      const url = window.URL.createObjectURL(new Blob([response.data]));
 
-    getCategories();
-  }, []);
+      const link = document.createElement("a");
 
-  const categoryOptions = categoryList?.map((item) => ({
-    label: item?.categoryName,
-    value: item?._id,
-  }));
+      link.href = url;
+      link.download = `invoice-${orderId}.pdf`;
 
-  const visibleProducts = (productList || [])?.filter(
-    (item) => item?.premiumOnly === false,
-  );
+      document.body.appendChild(link);
+
+      link.click();
+
+      link.remove();
+
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const th = "px-4 py-3 text-center text-sm font-semibold sm:px-6 sm:py-4";
+  const td =
+    "px-4 py-4 text-center text-sm font-medium text-[#4A2418] sm:px-6 sm:py-5";
 
   return (
     <div className="explore-candy w-full">
@@ -79,136 +95,101 @@ const Customize = () => {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-[#4A2418] sm:text-4xl">
-          Customize 
+          Customize
         </h1>
 
         <p className="mt-1 text-base text-[#4A2418]/70">
-          🍬 Customize your basket 
+          See all your customize baskets here.
         </p>
       </div>
 
       {/* Filters */}
-      <div className="mb-8 flex flex-col gap-3 sm:flex-row">
+      <div className="mb-8 flex flex-col gap-3 sm:flex-row justify-between">
         {/* Search */}
         <input
           type="text"
-          placeholder="Search treats..."
+          placeholder="Search basket..."
           onChange={(e) => {
             setsearch(e.target.value);
           }}
           className="w-full rounded-full border-2 border-[#4A2418] bg-[#FFF8EC] px-5 py-2.5 text-sm font-medium text-[#4A2418] shadow-[3px_3px_0_#4A2418] outline-none transition placeholder:text-[#4A2418]/45 focus-visible:ring-4 focus-visible:ring-[#FF8FB8]/50 sm:w-80"
         />
-
-        {/* Category */}
-        <div className="relative sm:w-56">
-          <select
-            value={categoryId}
-            onChange={(e) => {
-              setcategoryId(e.target.value);
-            }}
-            className="w-full cursor-pointer appearance-none rounded-full border-2 border-[#4A2418] bg-[#FFF8EC] py-2.5 pl-5 pr-10 text-sm font-medium text-[#4A2418] shadow-[3px_3px_0_#4A2418] outline-none transition focus-visible:ring-4 focus-visible:ring-[#FF8FB8]/50"
-          >
-            <option value="">All Categories</option>
-
-            {categoryOptions?.map((item) => (
-              <option key={item.value} value={item.value}>
-                {item.label}
-              </option>
-            ))}
-          </select>
-          <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-[#4A2418]">
-            ▼
-          </span>
-        </div>
+        <button
+          type="button"
+          onClick={()=>{
+            navigate("/createbasket")
+          }}
+          className="rounded-full border-2 border-[#4A2418] bg-[#4A2418] px-5 py-2.5 text-sm font-semibold text-[#FFF8EC] transition hover:bg-[#FFD166] hover:text-[#4A2418] active:translate-y-0.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF8FB8]/60 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-[#4A2418] disabled:hover:text-[#FFF8EC]"
+        >
+          Add Basket
+        </button>
       </div>
 
-      {/* Product Cards */}
-      {visibleProducts.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {visibleProducts?.map((item) => (
-            <div
-              key={item?._id}
-              onClick={() => {
-                navigate(`/exploreproductbyid/${item?._id}`);
-              }}
-              className="group cursor-pointer overflow-hidden rounded-3xl border-2 border-[#4A2418] bg-[#FFF8EC] shadow-[5px_5px_0_#4A2418]"
-            >
-              {/* Image */}
-              <div className="relative h-44 overflow-hidden border-b-2 border-[#4A2418] bg-[#FFE3EE]">
-                <img
-                  src={item?.product?.image}
-                  alt={item?.product?.name}
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                />
+      {/* Table */}
+      <div className="overflow-hidden rounded-3xl border-2 border-[#4A2418] bg-[#FFF8EC] shadow-[5px_5px_0_#4A2418]">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-120 text-left">
+            <thead className="bg-[#4A2418] text-[#FFF8EC]">
+              <tr>
+                <th className={th}>Product Name</th>
+                <th className={th}>Salesperson</th>
+                <th className={th}>Amount Paid</th>
+                <th className={th}>Status</th>
+                <th className={th}>Invoice</th>
+              </tr>
+            </thead>
 
-                {/* Stock */}
-                <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full border-2 border-[#4A2418] bg-[#FFD166] px-2.5 py-0.5 text-[11px] font-semibold text-[#4A2418]">
-                  {item?.premiumOnly ? <MdStars size={14} /> : null}
-                  {item?.stock} in stock
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-4">
-                <h2 className="truncate text-lg font-bold text-[#4A2418]">
-                  {item?.product?.name}
-                </h2>
-
-                <p className="mt-1 line-clamp-2 min-h-[40px] text-sm leading-5 text-[#4A2418]/70">
-                  {item?.product?.description}
-                </p>
-
-                <p className="mt-2 text-xs font-medium text-[#4A2418]/60">
-                  Seller: {item?.salesperson?.name}
-                </p>
-
-                {/* Prices */}
-                <div className="mt-3 flex items-end justify-between border-t-2 border-dashed border-[#4A2418]/25 pt-3">
-                  <div>
-                    <p className="text-xs text-[#4A2418]/60">Regular</p>
-                    <p className="text-base font-semibold text-[#4A2418]">
-                      ₹{item?.normalSellingPrice?.toLocaleString("en-IN")}
-                    </p>
-                  </div>
-
-                  <div className="rounded-full border-2 border-[#4A2418] bg-[#FF8FB8] px-3 py-1 text-right">
-                    <p className="text-[10px] font-medium leading-none text-[#4A2418]/80">
-                      Subscription
-                    </p>
-                    <p className="text-base font-bold leading-tight text-[#4A2418]">
-                      ₹{item?.subscriptionSellingPrice?.toLocaleString("en-IN")}
-                    </p>
-                  </div>
-                </div>
-
-                {/* View Details */}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/exploreproductbyid/${item?._id}`);
-                  }}
-                  className="mt-4 w-full rounded-full border-2 border-[#4A2418] bg-[#4A2418] px-4 py-2 text-sm font-semibold text-[#FFF8EC] transition hover:bg-[#FFD166] hover:text-[#4A2418] active:translate-y-0.5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF8FB8]/60"
+            <tbody>
+              {myOrders?.map((item) => (
+                <tr
+                  key={item?._id}
+                  className="border-b-2 border-dashed border-[#4A2418]/20 transition last:border-b-0 hover:bg-[#FFF0C9]"
                 >
-                  View Details
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="mx-auto max-w-sm rounded-3xl border-2 border-dashed border-[#4A2418] bg-[#FFF8EC] px-6 py-10 text-center">
-          <div className="text-4xl">🍪</div>
+                  <td className={td}>{item?.product?.name}</td>
 
-          <h2 className="mt-2 text-lg font-bold text-[#4A2418]">
-            No Baskets found
-          </h2>
+                  <td className={td}>{item?.salesperson?.name}</td>
 
-          <p className="mt-1 text-sm text-[#4A2418]/70">
-            Try a different search or category.
-          </p>
+                  <td className={td}>
+                    ₹{item?.totalAmount?.toLocaleString("en-IN")}
+                  </td>
+
+                  <td className="px-4 py-3 text-center sm:px-6 sm:py-4">
+                    <span
+                      className={`rounded-full border-2 border-[#4A2418] px-3 py-0.5 text-xs font-semibold capitalize text-[#4A2418] ${
+                        STATUS_STYLES[item?.orderStatus] ?? "bg-white"
+                      }`}
+                    >
+                      {item?.orderStatus}
+                    </span>
+                  </td>
+
+                  <td className="px-4 py-3 text-center sm:px-6 sm:py-4">
+                    <button
+                      type="button"
+                      aria-label="Download invoice"
+                      onClick={() => downloadInvoice(item?._id)}
+                      className="rounded-full border-2 border-transparent p-2 text-[#4A2418] transition hover:border-[#4A2418] hover:bg-[#FFD166] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FF8FB8]/50"
+                    >
+                      <FaFileDownload size={16} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+
+              {myOrders?.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="px-6 py-12 text-center">
+                    <div className="text-4xl">🍪</div>
+                    <p className="mt-2 text-sm font-medium text-[#4A2418]/70">
+                      No orders found.
+                    </p>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
-      )}
+      </div>
     </div>
   );
 };
